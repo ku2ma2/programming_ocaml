@@ -54,3 +54,16 @@ let kame_no_ashi ashi = ashi * 4
 let kame_no_ashi_test1 = kame_no_ashi 2 = 8
 let kame_no_ashi_test2 = kame_no_ashi 3 = 12
 let kame_no_ashi_test3 = kame_no_ashi 5 = 20
+
+(* 問題 4.7: 鶴の数と亀の数を与えらえれたらデザインレシピにしたがって、
+足の数の合計を返す関数 tsurukame_no_ashi を定義せよ *)
+
+(* 目的: 鶴と亀の数を与えられたら足の数の合計を返す関数 *)
+(* tsurukame_no_ashi : int -> int -> int *)
+let tsurukame_no_ashi tsuru kame = tsuru_no_ashi tsuru + kame_no_ashi kame
+
+(* テスト *)
+let tsurukame_no_ashi_test1 = tsurukame_no_ashi 2 3 = 16
+let tsurukame_no_ashi_test2 = tsurukame_no_ashi 0 1 = 4
+let tsurukame_no_ashi_test3 = tsurukame_no_ashi 1 0 = 2
+let tsurukame_no_ashi_test4 = tsurukame_no_ashi 3 1 = 10
