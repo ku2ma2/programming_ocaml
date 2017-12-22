@@ -31,5 +31,26 @@ let bmi tall weight = weight /. ( tall ** 2.0 )
 let bmi_test1 = bmi 1.0 30.0 = 30.0
 let bmi_test2 = bmi 2.0 100.0 = 25.0
 
+(* 問題 4.6: デザインレシピにしたがって関数を作ってみよう。
+鶴の数を与えれられたら、足の本数を返す関数
+ tsuru_no_ashi を以下に沿って定義せよ *)
 
+(* 目的: 鶴の数を与えられたら足の本数を返す関数 *)
+(* tsuru_no_ashi : int -> int *)
+let tsuru_no_ashi ashi = ashi * 2
 
+(* テスト *)
+let tsuru_no_ashi_test1 = tsuru_no_ashi 2 = 4
+let tsuru_no_ashi_test2 = tsuru_no_ashi 3 = 6
+let tsuru_no_ashi_test3 = tsuru_no_ashi 5 = 10
+
+(* 同様にして亀の足の本数を返す関数 kame_no_ashi も定義せよ。 *)
+
+(* 目的: 鶴の数を与えられたら足の数を返す関数 *)
+(* kame_no_ashi : int -> int *)
+let kame_no_ashi ashi = ashi * 4
+
+(* テスト *)
+let kame_no_ashi_test1 = kame_no_ashi 2 = 8
+let kame_no_ashi_test2 = kame_no_ashi 3 = 12
+let kame_no_ashi_test3 = kame_no_ashi 5 = 20
