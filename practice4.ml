@@ -67,3 +67,18 @@ let tsurukame_no_ashi_test1 = tsurukame_no_ashi 2 3 = 16
 let tsurukame_no_ashi_test2 = tsurukame_no_ashi 0 1 = 4
 let tsurukame_no_ashi_test3 = tsurukame_no_ashi 1 0 = 2
 let tsurukame_no_ashi_test4 = tsurukame_no_ashi 3 1 = 10
+
+(* 問題 4.8: 最後に鶴亀算を解く関数をデザインレシピにしたがって作ってみる。鶴と亀の合計と足の数の合計を与えられたら、鶴の数を返す関数 tsurukame を以下に沿って定義せよ *)
+
+(* 目的: 鶴と亀の合計(動物の数)と足の数の合計を与えられたら、鶴の数を返す関数 *)
+(* tsurukame : int -> int -> int *)
+
+let tsurukame animal foot = (animal * 4 - foot) / 2
+
+(* テスト *)
+let tsurukame_test0 = tsurukame 0 0 = 0
+let tsurukame_test1 = tsurukame 2 4 = 2
+let tsurukame_test2 = tsurukame 1 2 = 1
+let tsurukame_test3 = tsurukame 1 4 = 0
+let tsurukame_test4 = tsurukame 2 6 = 1
+
