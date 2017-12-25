@@ -71,3 +71,37 @@ let seiza_test3 = seiza 7 23 = "獅子座"
 let seiza_test4 = seiza 12 21 = "射手座"
 
 
+(* 問題 5.4: 2次元方程式 ax^2 + bx + c = 0 の係数 a, b, c （いずれも実数とする）
+を与えられたら、判別式の値を返す関数 hanbetsushiki をデザインレシピにしたがって作れ。
+ここで a は 0 でないと仮定して良い *)
+
+(* 目的: ax2 + bx + c = 0 の係数 a, b, c （いずれも実数とする）
+を与えられたら、判別式の値を返す関数 *)
+(* hanbetsushiki : float -> float -> float -> float *)
+let hanbetsushiki a b c = b *. b -. 4.0 *. a *. c 
+
+(* テスト *)
+let hanbetsushiki_test1 = hanbetsushiki 1.0 5.0 4.0 = 9.0 
+let hanbetsushiki_test2 = hanbetsushiki 2.0 (-4.0) 2.0 = 0.0 
+let hanbetsushiki_test3 = hanbetsushiki 1.0 2.0 4.0 = -12.0 
+
+
+(* 問題 5.5: 2次方程式 ax^2 + bx + c = 0 の係数 a, b, c（いずれも実数とする）
+を与えれられたら、解の個数を返す関数 kai_no_kosuu をデザインレシピにしたがって作れ。
+ここで a は 0 ではないと仮定して良い。また上で作った関数 hanbetsushiki を使って良い。 *)
+
+(* 目的: 2次方程式 ax^2 + bx + c = 0 の係数 a, b, c（いずれも実数とする）
+を与えれられたら、解の個数を返す関数 *)
+(* kai_no_kosuu : float -> float -> float -> int *)
+let kai_no_kosuu a b c = 
+    if hanbetsushiki a b c > 0.0 then 2
+    else if hanbetsushiki a b c = 0.0 then 1
+    else 0
+
+(* テスト *)
+let kai_no_kosuu_test1 = kai_no_kosuu 1.0 5.0 4.0 = 2
+let kai_no_kosuu_test2 = kai_no_kosuu 2.0 (-4.0) 2.0 = 1
+let kai_no_kosuu_test3 = kai_no_kosuu 1.0 2.0 4.0 = 0
+
+
+
