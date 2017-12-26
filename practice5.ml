@@ -119,3 +119,21 @@ let kyosuukai_test1 = kyosuukai 1.0 5.0 4.0 = false
 let kyosuukai_test2 = kyosuukai 2.0 (-4.0) 2.0 = false
 let kyosuukai_test3 = kyosuukai 1.0 2.0 4.0 = true
 
+
+(* 問題 5.7: 身長(m)と体重(kg)を与えられたら、BMI指数を計算し、その数値によって体系を返す関数 taikei をデザインレシピにしたがって作れ。ここで体型は 18.5未満ならやせ、18.5以上25未満なら標準、25以上30未満なあ肥満、30以上なら高度肥満とせよ。 *)
+(* 身長(m) と 体重(kg) を与えられたら、BMI指数 を返す関数 *)
+let bmi tall weight = weight /. ( tall ** 2.0 )
+
+(* 目的: 身長(m)と体重(kg)を与えられたら、BMI指数を計算し、その数値によって体系を返す関数 *)
+let taikei tall weight = 
+    let bmi_status = bmi tall weight in
+        if bmi_status < 18.5 then "やせ"
+        else if 18.5 <= bmi_status && bmi_status < 25.0 then "標準"
+        else if 25.0 <= bmi_status && bmi_status < 30.0 then "肥満"
+        else "高度肥満"
+
+(* テスト *)
+let taikei_test1 = taikei 1.13 20.0 = "やせ" 
+let taikei_test2 = taikei 1.63 57.0 = "標準" 
+let taikei_test3 = taikei 1.71 56.0 = "標準" 
+let taikei_test4 = taikei 1.71 75.0 = "肥満" 
