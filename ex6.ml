@@ -1,8 +1,15 @@
-(* 問題 5.1: 次の if 文にはどのような型がつくか。つかない場合、どこで型エラーが起きるか *)
+(* 問題 6.1: 次のプログラムを実行するとどのようなエラーになるか予想せよ。
+実際にOCamlインタプリタに入力して確認せよ *)
 
-if 2 < 1 then 3 else 4;; (* int = 4 *)
-(* if "true" then 3.14 else 2.72;; ERROR *)
-if "a" = "b" then false else true;;
-(* if true < false then 1 else "2";; ERROR *)
-if not (3 = 4) then 1 < 2 else 1 > 2;;
+let square x = x * x ;;
+(* square 3.;;  *)
+(* Error: This expression has type float but an expression was expected of type *)
+
+(* let circle = 2. *. pi *. r;;
+circle 2.;; *)
+(* Error: Unbound value pi *)
+
+(* let TV bangumi youbi = bangumi ^ "は" ^ youbi ^ "に放映です。";;
+TV "ポケモン" "土曜日";; *)
+(* Error: Syntax error *)
 
