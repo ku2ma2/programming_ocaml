@@ -24,3 +24,31 @@ let seiseki member = match member with
 (* テスト *)
 let seiseki_test1 = seiseki ("太郎", "A") = "太郎さんの成績はAです"
 let seiseki_test2 = seiseki ("花子", "B") = "花子さんの成績はBです"
+
+(* 問題 7.3: x座標とy座標の組で表された平面座標を受け取ったら、x軸について
+対称な点の座標を返す関数 taisho_x をデザインレシピにしたがって作れ。 *)
+(* 目的: x座標とy座標の組で表された平面座標を受け取ったら、
+x軸について対称な点の座標を返す関数 *)
+(* taisho_x : float * float -> float * float *)
+let taisho_x point = match point with
+    (x, y) -> (x, -. y)
+
+(* テスト *)
+let taisho_x_test1 = taisho_x (100.0, 200.0) = (100.0, -200.0)
+let taisho_x_test2 = taisho_x (0.0, 0.0) = (0.0, 0.0)
+let taisho_x_test3 = taisho_x (50.0, 300.0) = (50.0, -300.0)
+
+(* 問題 7.4: x座標と y座標の組で表された平面座標をふたつ受けとったら、
+その中点の座標を返す関数 chuten をデザインレシピにしたがって作れ *)
+(* 目的: x座標と y座標の組で表された平面座標をふたつ受けとったら、
+その中点の座標を返す関数 *)
+(* chuten : float * float -> float * float -> float * float *)
+let chuten start_point end_point = match start_point with
+    (x1, y1) -> match end_point with
+        (x2, y2) -> ((x1 +. x2) /. 2.0, (y1 +. y2) /. 2.0)
+
+(* テスト *)
+let chuten_test1 = chuten (0.0, 0.0) (100.0, 100.0) = (50.0, 50.0)
+let chuten_test2 = chuten (0.0, 0.0) (0.0, 0.0) = (0.0, 0.0)
+let chuten_test3 = chuten (50.0, -22.0) (10.0, 30.0) = (30.0, 4.0)
+
