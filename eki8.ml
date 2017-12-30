@@ -24,3 +24,16 @@ let hyoji ekimei_t = match ekimei_t with
 (* テスト *)
 let hyoji_t1 = hyoji ekimei_test1 = "京浜東北線、品川（しながわ）"
 let hyoji_t2 = hyoji ekimei_test2 = "丸ノ内線、茗荷谷（みょうがだに）"
+
+(* 問題 8.7: 駅と駅の間の接続情報を格納するレコード型 ekikan_t を宣言せよ。
+ekikan_t 型にはフィールドとして、起点の駅名 kiten、終点の駅名 shuten、
+経由する路線名 keiyu （いずれも漢字の文字列）、その2駅間の距離 kyori（km, 実数）、
+そして所要時間 jikan（分, 整数）を持つようにせよ。 *)
+
+type ekikan_t = {
+    kiten: string;
+    shuten: string;
+    keiyu: string;
+    kyori: float;
+    jikan: int;
+}
