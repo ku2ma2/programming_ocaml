@@ -28,3 +28,31 @@ let book3 = {
     isbn = "4873115655";
 }
 
+(* 問題 8.1: お小遣い帳の情報を格納するレコード型 okozukai_t を宣言せよ。
+okozukai_t 型にはフィールドとして買ったものの名前、値段、買った場所、
+そして日付を持つようにせよ。この型を持つデータを3つ定義せよ。 *)
+type okozukai_t = {
+    item: string;
+    price: int;
+    shop: string;
+    date: string;
+}
+
+let okozukai_1 = {
+    item = "お菓子";
+    price = 300;
+    shop = "スーパー";
+    date = "12/12";
+}
+let okozukai_2 = {
+    item = "サランラップ";
+    price = 190;
+    shop = "薬局";
+    date = "12/14";
+}
+let okozukai_3 = {
+    item = "ゲーム";
+    price = 2500;
+    shop = "家電量販店";
+    date = "12/22";
+}
