@@ -40,3 +40,17 @@ let even_test1 = even [] = []
 let even_test2 = even [2] = [2]
 let even_test3 = even [2; 1; 6; 4; 7] = [2; 6; 4]
 
+
+(* 問題 9.6: 文字列のリストを受け取ったら、その中の要素を前から順に全部、くっつけた文字列
+を返す関数 concat をデザインレシピにしたがって作れ。
+例えば concat ["春"; "夏"; "秋"; "冬"] は "春夏秋冬" を返す。 *)
+(* concat : string list -> string *)
+let rec concat lst = match lst with
+    [] -> ""
+  | first :: rest -> first ^ concat rest
+
+(* テスト *)
+let concat_test1 = concat [] = ""
+let concat_test2 = concat ["春"] = "春"
+let concat_test3 = concat ["春"; "夏"; "秋"; "冬"] = "春夏秋冬"
+
