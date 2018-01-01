@@ -55,6 +55,7 @@ let concat_test2 = concat ["春"] = "春"
 let concat_test3 = concat ["春"; "夏"; "秋"; "冬"] = "春夏秋冬"
 
 
+(* 問題 9.7: 問題8.3で定義したperson_t 型のデータのリストを受け取ったら、血液型が A型の人の数を返す関数 count_ketsueki_A をデザインレシピにしたがって作れ *)
 (* count_ketsueki_A : person_t list -> int *)
 let rec count_ketsueki_A person = match person with
     [] -> 0
