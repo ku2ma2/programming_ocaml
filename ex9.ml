@@ -49,8 +49,26 @@ let rec concat lst = match lst with
     [] -> ""
   | first :: rest -> first ^ concat rest
 
-(* テスト *)
+(* テスト *)   
 let concat_test1 = concat [] = ""
 let concat_test2 = concat ["春"] = "春"
 let concat_test3 = concat ["春"; "夏"; "秋"; "冬"] = "春夏秋冬"
+
+
+(* count_ketsueki_A : person_t list -> int *)
+let rec count_ketsueki_A person = match person with
+    [] -> 0
+  | {name=n; height=h; weight=w; birthday=b; blood=bl} :: rest ->
+      if bl = "A型" then 1 + count_ketsueki_A rest
+      else count_ketsueki_A rest
+
+(* テストデータ *)
+let persons_1 = [person_3]
+let persons_2 = [person_1; person_2; person_3; person_4]
+
+(* テスト *)
+let count_ketsueki_A_test1 = count_ketsueki_A [] = 0
+let count_ketsueki_A_test2 = count_ketsueki_A persons_1 = 1
+let count_ketsueki_A_test3 = count_ketsueki_A persons_2 = 2
+
 
