@@ -1,3 +1,5 @@
+#use "ex8.ml";;
+
 (* 問題 10.1: あらかじめ昇順に並んでいる整数のリスト lst と整数 n を受け取ったら、
 lst　を前から順に見ていき、昇順となる位置に n を挿入したリストを返す関数 insert
 をデザインレシピにしたがって作れ、例えば insert [1; 3; 4; 7; 8] 5 は 
@@ -79,4 +81,42 @@ let gakusei_sort_t3 = gakusei_sort gakusei_lst3 = [gakusei3; gakusei2]
 let gakusei_sort_t3 = gakusei_sort gakusei_lst4 = [gakusei4; gakusei3]
 let gakusei_sort_t3 = gakusei_sort gakusei_lst5 = [gakusei6; gakusei5; gakusei4; gakusei3; gakusei2; gakusei1]
 
+
+(* 問題 10.4: 問題 8.3 で定義した person_t 型のリストを受け取ったら、それを
+名前の順に整列したリストを返す関数 person_sort をデザインレシピにしたがって作れ。 *)
+
+(* 名簿リスト *)
+let person_lst1 = []
+let person_lst2 = [person_1]
+let person_lst3 = [person_3; person_4]
+let person_lst4 = [person_1; person_2; person_3; person_4]
+
+(* 目的: あらかじめ名前で整列している person_t 型のリストに person_t を
+名前の順番位置に挿入する 関数 *)
+(* person_insert : person_t list -> person_t -> person_t list *)
+let rec person_insert lst person = match lst with
+    [] -> [person]
+  | ({name=n; height=h; weight=w; birthday=b; blood=bl} as first) :: rest -> 
+      match person with
+          {name=n0; height=h0; weight=w0; birthday=b0; blood=bl0} -> 
+              if n < n0 then first :: person_insert rest person
+              else person :: lst
+
+(* テスト *)
+let person_insert_t1 = person_insert person_lst1 person_1 = [person_1]
+let person_insert_t2 = person_insert person_lst2 person_2 = [person_2; person_1]
+let person_insert_t3 = person_insert person_lst3 person_2 = [person_3; person_2; person_4]
+
+
+(* 目的: person_t 型のリストを受けとったら名前の順に整列したリストを返す関数 *)
+(* person_sort : person_t list -> person_t list *)
+let rec person_sort lst = match lst with
+    [] -> []
+  | first :: rest ->  person_insert (person_sort rest) first
+
+(* テスト *)
+let person_sort_t1 = person_sort person_lst1 = []
+let person_sort_t2 = person_sort person_lst2 = [person_1]
+let person_sort_t3 = person_sort person_lst3 = [person_3; person_4]
+let person_sort_t4 = person_sort person_lst4 = [person_3; person_2; person_4; person_1]
 
