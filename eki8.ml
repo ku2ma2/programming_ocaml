@@ -37,3 +37,5 @@ type ekikan_t = {
     kyori: float;   (* ２駅間の距離（km） *)
     jikan: int;     (* 所要時間（分） *)
 }
+
+
