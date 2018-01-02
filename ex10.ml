@@ -3,10 +3,17 @@ lst　を前から順に見ていき、昇順となる位置に n を挿入し�
 をデザインレシピにしたがって作れ、例えば insert [1; 3; 4; 7; 8] 5 は 
 [1; 3; 4; 5; 7; 8] を返す  *)
 (* insert : int list -> int -> int list *)
+let rec insert lst n = match lst with
+    [] -> n :: []
+  | first :: rest -> 
+      if first < n then first :: insert rest n
+      else n :: lst
 
 (* テスト *)
 let insert_test1 = insert [] 1 = [1]
-let insert_test2 = insert [1; 3; 4; 7; 8] 5 = [1; 3; 4; 5; 7; 8]
+let insert_test2 = insert [1] 3 = [1; 3]
+let insert_test3 = insert [3] 1 = [1; 3]
+let insert_test4 = insert [1; 3; 4; 7; 8] 5 = [1; 3; 4; 5; 7; 8]
 
 (* 問題 10.2: 整数のリストを受け取ったら、それを昇順に整列したリストを返す関数
 ins_sort をデザインレシピに従って作れ 例えば ins_sort [5; 3; 8; 1; 7; 4] は
