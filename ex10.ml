@@ -120,3 +120,25 @@ let person_sort_t2 = person_sort person_lst2 = [person_1]
 let person_sort_t3 = person_sort person_lst3 = [person_3; person_4]
 let person_sort_t4 = person_sort person_lst4 = [person_3; person_2; person_4; person_1]
 
+(* 問題 10.5: gakusei_t 型のリストを受け取ったら、その中から最高得点を取った人のレコードを返す関数 gakusei_max をデザインレシピにしたがって作れ *)
+(* gakusei_max : gakusei_t list -> gakusei_t *)
+let rec gakusei_max lst = match lst with
+    [] -> {namae=""; tensuu=min_int; seiseki=""} 
+  | ({namae=n; tensuu=t; seiseki=s} as first) :: rest -> 
+      match gakusei_max rest with
+      {namae=n0; tensuu=t0; seiseki=s0} ->
+        if t > t0 then first
+        else gakusei_max rest
+
+
+(* テスト用 学生リスト *) 
+let gakusei_max_lst1 = [] 
+let gakusei_max_lst2 = [gakusei3; gakusei1]
+let gakusei_max_lst3 = [gakusei2; gakusei3]
+let gakusei_max_lst4 = [gakusei4; gakusei1; gakusei6; gakusei5; gakusei2; gakusei3] 
+
+(* テスト *)
+let gakusei_max_t1 = gakusei_max gakusei_max_lst1 = {namae=""; tensuu=min_int; seiseki=""} 
+let gakusei_max_t2 = gakusei_max gakusei_max_lst2 = gakusei1
+let gakusei_max_t3 = gakusei_max gakusei_max_lst3 = gakusei2
+let gakusei_max_t4 = gakusei_max gakusei_max_lst4 = gakusei1
