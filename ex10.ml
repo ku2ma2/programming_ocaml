@@ -146,3 +146,27 @@ let gakusei_max_t1 = gakusei_max gakusei_max_lst1 = {namae=""; tensuu=min_int; s
 let gakusei_max_t2 = gakusei_max gakusei_max_lst2 = gakusei1
 let gakusei_max_t3 = gakusei_max gakusei_max_lst3 = gakusei2
 let gakusei_max_t4 = gakusei_max gakusei_max_lst4 = gakusei1
+
+(* 問題 10.7: 問題 8.3で定義した person_t 型のデータのリストを受け取ったら、
+各血液型の人が何人いるのかを組にして返す関数 ketsueki_shukei を
+デザインレシピにしたがって作れ。 *)
+(* ketsueki_shukei : person_t list -> int * int * int * int *)
+let rec ketsueki_shukei lst = match lst with
+    [] -> (0, 0, 0, 0)
+  | ({name=n; height=h; weight=w; birthday=bi; blood=bl} as first) :: rest -> 
+        let (a, b, o, ab) = ketsueki_shukei rest in
+            if bl = "A型" then (a + 1, b, o, ab)
+            else if bl = "B型" then (a, b + 1, o, ab)
+            else if bl = "O型" then (a, b, o + 1, ab)
+            else if bl = "AB型" then (a, b, o, ab + 1)
+            else (a, b, o, ab)
+
+let person_lst1 = []
+let person_lst2 = [person_1]
+let person_lst3 = [person_1; person_2; person_3; person_4]
+
+(* テスト *)
+let ketsueki_shukei_t1 = ketsueki_shukei person_lst1 = (0, 0, 0, 0)
+let ketsueki_shukei_t2 = ketsueki_shukei person_lst2 = (0, 0, 1, 0)
+let ketsueki_shukei_t3 = ketsueki_shukei person_lst3 = (2, 0, 1, 1)
+
