@@ -153,7 +153,7 @@ let gakusei_max_t4 = gakusei_max gakusei_max_lst4 = gakusei1
 (* ketsueki_shukei : person_t list -> int * int * int * int *)
 let rec ketsueki_shukei lst = match lst with
     [] -> (0, 0, 0, 0)
-  | ({name=n; height=h; weight=w; birthday=bi; blood=bl} as first) :: rest -> 
+  | {name=n; height=h; weight=w; birthday=bi; blood=bl} :: rest -> 
         let (a, b, o, ab) = ketsueki_shukei rest in
             if bl = "A型" then (a + 1, b, o, ab)
             else if bl = "B型" then (a, b + 1, o, ab)
@@ -169,4 +169,22 @@ let person_lst3 = [person_1; person_2; person_3; person_4]
 let ketsueki_shukei_t1 = ketsueki_shukei person_lst1 = (0, 0, 0, 0)
 let ketsueki_shukei_t2 = ketsueki_shukei person_lst2 = (0, 0, 1, 0)
 let ketsueki_shukei_t3 = ketsueki_shukei person_lst3 = (2, 0, 1, 1)
+
+(* 問題 10.8: person_t 型のデータのリストを受け取ったら、
+4つの血液型のうち最も人数の多かった血液型を返す関数 saita_ketsueki
+をデザインレシピにしたがって作れ *)
+(* saita_ketsueki : person_t list -> string *)
+let saita_ketsueki lst = 
+    let (a, b, o, ab) = ketsueki_shukei lst in
+      let saidai = max ( max a b ) ( max o ab ) in
+        if saidai = a then "A型"
+        else if saidai = b then "B型"
+        else if saidai = o then "O型"
+        else if saidai = ab then "AB型"
+        else "なし"
+
+(* テスト *)
+let saita_ketsueki_t1 = saita_ketsueki person_lst1 = "A型" (* 同点の場合は見つかった順になる *)
+let saita_ketsueki_t2 = saita_ketsueki person_lst2 = "O型"
+let saita_ketsueki_t3 = saita_ketsueki person_lst3 = "A型"
 
