@@ -188,3 +188,8 @@ let saita_ketsueki_t1 = saita_ketsueki person_lst1 = "A型" (* 同点の場合�
 let saita_ketsueki_t2 = saita_ketsueki person_lst2 = "O型"
 let saita_ketsueki_t3 = saita_ketsueki person_lst3 = "A型"
 
+(* 問題 10.9: ふたつのりストを受け取ってきたら、それらの長さが同じかどうかを判定する関数
+equal_length をデザインレシピにしたがって作れ（関数 length は使わずに作成せよ） *)
+(* equal_length : int list -> int list -> bool *)
+
+(* テスト *)
