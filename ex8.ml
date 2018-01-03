@@ -68,9 +68,9 @@ type person_t = {
     blood: string;
 }
 let person_1 = {name="太郎"; height=1.71; weight=64.0; birthday="12/16"; blood="O型"}
-let person_2 = {name="二郎"; height=1.61; weight=62.0; birthday="8/22"; blood="AB型"}
-let person_3 = {name="花子"; height=1.53; weight=48.0; birthday="2/28"; blood="A型"}
-let person_4 = {name="純子"; height=1.48; weight=45.0; birthday="9/28"; blood="A型"}
+let person_2 = {name="Jiro"; height=1.61; weight=62.0; birthday="8/22"; blood="AB型"}
+let person_3 = {name="Hanako"; height=1.53; weight=48.0; birthday="2/28"; blood="A型"}
+let person_4 = {name="Junko"; height=1.48; weight=45.0; birthday="9/28"; blood="A型"}
 
 (* 問題 8.4: 問題8.3で定義した person_t 型のデータを受け取ったら
 「◯◯さんの血液型は△型です」という形の文字列を返す関数
@@ -84,6 +84,6 @@ let ketsueki_hyouji persion_t = match persion_t with
 
 (* テスト *)
 let ketsueki_hyouji_t1 = ketsueki_hyouji person_1 = "太郎さんの血液型はO型です"
-let ketsueki_hyouji_t2 = ketsueki_hyouji person_2 = "二郎さんの血液型はAB型です"
-let ketsueki_hyouji_t3 = ketsueki_hyouji person_3 = "花子さんの血液型はA型です"
+let ketsueki_hyouji_t2 = ketsueki_hyouji person_2 = "Jiroさんの血液型はAB型です"
+let ketsueki_hyouji_t3 = ketsueki_hyouji person_3 = "Hanakoさんの血液型はA型です"
 
