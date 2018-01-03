@@ -190,6 +190,19 @@ let saita_ketsueki_t3 = saita_ketsueki person_lst3 = "A型"
 
 (* 問題 10.9: ふたつのりストを受け取ってきたら、それらの長さが同じかどうかを判定する関数
 equal_length をデザインレシピにしたがって作れ（関数 length は使わずに作成せよ） *)
-(* equal_length : int list -> int list -> bool *)
+(* equal_length : 'a list -> 'a list -> bool *)
+let rec equal_length lst1 lst2 = match (lst1, lst2) with
+    ([], []) -> true
+  | ([], first2 :: rest2) -> false
+  | (first1 :: rest1, []) -> false
+  | (first1 :: rest1, first2 :: rest2) ->
+      equal_length rest1 rest2 
 
 (* テスト *)
+let equeal_length_t1 = equal_length [] [] = true
+let equeal_length_t2 = equal_length [] [2] = false
+let equeal_length_t3 = equal_length [1] [] = false
+let equeal_length_t4 = equal_length [3; 4; 6] [5; 6; 7] = true
+let equeal_length_t5 = equal_length [3; 4] [5; 6; 7] = false
+let equeal_length_t6 = equal_length ["a"; "b"] [5; 6; 7] = false
+let equeal_length_t7 = equal_length ["a"; "b"; "c"] [5; 6; 7] = true
