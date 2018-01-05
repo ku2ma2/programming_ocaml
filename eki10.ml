@@ -75,4 +75,3 @@ let kyori_wo_hyoji_t3 =
     kyori_wo_hyoji "mogemoge" "ebisu" = "mogemogeという駅は存在しません"
 let kyori_wo_hyoji_t4 = 
     kyori_wo_hyoji "ebisu" "mogemoge" = "mogemogeという駅は存在しません"
-
