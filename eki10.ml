@@ -45,7 +45,34 @@ let rec get_ekikan_kyori eki1 eki2 lst = match lst with
 let get_ekikan_kyori_t1 = get_ekikan_kyori "茗荷谷" "新大塚" global_ekikan_list = 1.2
 let get_ekikan_kyori_t2 = get_ekikan_kyori "新大塚" "茗荷谷" global_ekikan_list = 1.2
 let get_ekikan_kyori_t3 = get_ekikan_kyori "志茂" "妙典" global_ekikan_list = infinity
-let get_ekikan_kyori_t4 = get_ekikan_kyori "" "" global_ekikan_list = infinity
+let get_ekikan_kyori_t4 = get_ekikan_kyori "もんげー" "" global_ekikan_list = infinity
 let get_ekikan_kyori_t5 = get_ekikan_kyori "茗荷谷" "新大塚" [] = infinity
 
+
+(* 問題 10.12: ローマ字の駅名をふたつ受けとってきたら、その間の距離を調べ、
+直接つながっている場合は「A駅からB駅までは◯kmです」という文字列を返し、
+つながっていない場合は「A駅とB駅はつながっていません」という文字列を返す関数
+kyori_wo_hyoji をデザインレシピにしたがって作れ。文字列中の「A駅」「B駅」
+には漢字を使うことにする。また、そもそも入力されたローマ字の駅名が存在
+しなかった場合には「〜という駅は存在しません」という文字列を返すようにせよ。 *)
+(* kyori_wo_hyoji : string -> string -> string *)
+let kyori_wo_hyoji station1 station2 = 
+    let eki1 = romaji_to_kanji station1 global_ekimei_list in
+    let eki2 = romaji_to_kanji station2 global_ekimei_list in
+        if eki1 = "" then station1 ^ "という駅は存在しません"
+        else if eki2 = "" then station2 ^ "という駅は存在しません"
+        else 
+            let ekikan = get_ekikan_kyori eki1 eki2 global_ekikan_list in
+                if ekikan = infinity then eki1 ^ "駅から" ^ eki2 ^ "駅はつながっていません"
+                else eki1 ^ "駅から" ^ eki2 ^ "駅までは" ^ string_of_float ekikan ^ "kmです"
+
+(* テスト *)
+let kyori_wo_hyoji_t1 = 
+    kyori_wo_hyoji "myogadani" "shinotsuka" = "茗荷谷駅から新大塚駅までは1.2kmです"
+let kyori_wo_hyoji_t2 = 
+    kyori_wo_hyoji "minamisenju" "ikebukuro" = "南千住駅から池袋駅はつながっていません"
+let kyori_wo_hyoji_t3 = 
+    kyori_wo_hyoji "mogemoge" "ebisu" = "mogemogeという駅は存在しません"
+let kyori_wo_hyoji_t4 = 
+    kyori_wo_hyoji "ebisu" "mogemoge" = "mogemogeという駅は存在しません"
 
