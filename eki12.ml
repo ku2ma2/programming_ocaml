@@ -31,4 +31,26 @@ let make_eki_list_t1 = make_eki_list eki_list1 = []
 let make_eki_list_t2 = make_eki_list eki_list2 = [{namae="品川"; saitan_kyori=infinity; temae_list=[]}]
 let make_eki_list_t3 = make_eki_list eki_list3 = [{namae="品川"; saitan_kyori=infinity; temae_list=[]}; {namae="茗荷谷"; saitan_kyori=infinity; temae_list=[]}]
 
+(* 問題 12.3: 上で作ったリストのうち始点のみについては
+「saitan_kyoriは0.」
+「temae_listは始点の駅名のみからなるリスト」にしたい。
+eki_t 型のリストと起点（漢字の文字列）を受け取ったら、起点のみ上記のようになっている
+eki_t 型のリストを返す関数 shokika をデザインレシピにしたがって作れ。 *)
+(* shokika : eki_t list -> string -> eki_t list *)
+let rec shokika lst station = match lst with
+    [] -> []
+  | ({namae=n; saitan_kyori=s; temae_list=k} as first) :: rest ->
+      let shokika_rest = shokika rest station in
+          if n = station then {namae=n; saitan_kyori=0.; temae_list=[n]} :: shokika_rest
+          else first :: shokika_rest
+
+(* テスト用データ *)
+let shokika_eki_t1 = make_eki_list eki_list1
+let shokika_eki_t2 = make_eki_list eki_list2
+let shokika_eki_t3 = make_eki_list eki_list3
+
+(* テスト *)
+let shokika_t1 = shokika shokika_eki_t1 "品川" = []
+let shokika_t2 = shokika shokika_eki_t2 "品川" = [{namae="品川"; saitan_kyori=0.; temae_list=["品川"]}]
+let shokika_t3 = shokika shokika_eki_t3 "茗荷谷" = [{namae="品川"; saitan_kyori=infinity; temae_list=[]}; {namae="茗荷谷"; saitan_kyori=0.; temae_list=["茗荷谷"]}]
 
