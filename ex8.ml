@@ -1,4 +1,6 @@
-(* 問題 8.1: 本に関する情報を格納するレコード型 book_t を宣言せよ。 book_t 型にはフィールドとしてタイトル、著者名、出版社、値段、そしてISBNコードを持つようにせよ。この型を持つデータを3つ定義せよ。 *)
+(* 問題 8.1: 本に関する情報を格納するレコード型 book_t を宣言せよ。 book_t 型
+にはフィールドとしてタイトル、著者名、出版社、値段、そしてISBNコードを持つようにせよ。
+この型を持つデータを3つ定義せよ。 *)
 type book_t = {
     title: string;     (* タイトル *)
     author: string;    (* 著者名 *)
@@ -76,7 +78,8 @@ let person_4 = {name="Junko"; height=1.48; weight=45.0; birthday="9/28"; blood="
 「◯◯さんの血液型は△型です」という形の文字列を返す関数
  ketsueki_hyoji をデザインレシピに従って作れ。 *)
 
-(* 目的: person_t 型のデータを受け取ったら「◯◯さんの血液型は△型です」という形の文字列を返す関数 *)
+(* 目的: person_t 型のデータを受け取ったら「◯◯さんの血液型は△型です」という形の
+文字列を返す関数 *)
 (* ketsueki_hyouji : person_t -> string *)
 let ketsueki_hyouji persion_t = match persion_t with 
     {name=n; height=h; weight=w; birthday=bd; blood=b} ->

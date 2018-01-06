@@ -32,7 +32,8 @@ let ins_sort_test2 = ins_sort [3; 1] = [1; 3]
 let ins_sort_test2 = ins_sort [5; 3; 8; 1; 7; 4] = [1; 3; 4; 5; 7; 8]
 
 
-(* 問題 10.3: gakusei_t 型のリストを受け取ったら、それを tensuu フィールドの順に整列したリストを返す関数 gakusei_sort をデザインレシピにしたがって作れ *)
+(* 問題 10.3: gakusei_t 型のリストを受け取ったら、それを tensuu フィールドの順に
+整列したリストを返す関数 gakusei_sort をデザインレシピにしたがって作れ *)
 
 (* 学生型定義 *)
 type gakusei_t = { 
@@ -120,7 +121,8 @@ let person_sort_t2 = person_sort person_lst2 = [person_1]
 let person_sort_t3 = person_sort person_lst3 = [person_3; person_4]
 let person_sort_t4 = person_sort person_lst4 = [person_3; person_2; person_4; person_1]
 
-(* 問題 10.5: gakusei_t 型のリストを受け取ったら、その中から最高得点を取った人のレコードを返す関数 gakusei_max をデザインレシピにしたがって作れ *)
+(* 問題 10.5: gakusei_t 型のリストを受け取ったら、その中から最高得点を取った人の
+レコードを返す関数 gakusei_max をデザインレシピにしたがって作れ *)
 (* 問題 10.6: 問題 10.5 で作った関数 gakusei_max を書き直して、
 同じ計算を2度することがないようにせよ。 *)
 
