@@ -38,3 +38,21 @@ let person_namae lst = List.map take_namae lst
 (* テスト *)
 let person_name_t1 = person_namae person_list_t1 = []
 let person_name_t2 = person_namae person_list_t2 = ["太郎"; "Jiro"; "Hanako"; "Junko"]
+
+
+(* 問題 13.3: 次の型を持つ関数を定義せよ *)
+
+(* (1) 'a -> 'a *)
+let func1 a = a
+
+(* (2) 'a -> 'b -> 'a *)
+let func2 a b = a
+
+(* (3) 'a -> 'b -> 'b *)
+let func3 a b = b
+
+(* (4) 'a -> ('a -> 'b) -> 'b *)
+let func4 a b = b a
+
+(* (5) ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c *)
+let func5 f g x = g (f x)
