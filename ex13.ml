@@ -56,3 +56,22 @@ let func4 a b = b a
 
 (* (5) ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c *)
 let func5 f g x = g (f x)
+
+(* 問題 13.4: 関数を2つ受け取ったら、そのふたつの関数を合成した関数を返す関数 compose を作れ。
+例えば (compose time2 add3) 4 とすると 2 x (3 + 4) = 14 が帰ってくる。
+composeの型はどうなるか *)
+let compose f g = 
+    let h a = f (g a) in h
+
+let time2 x = x * 2
+let add3 x = x + 3
+
+let compose_t1 = (compose time2 add3) 4 = 14
+
+(* 問題 13.5: 上で作った twice に twice 自身を渡して twice twice
+とすることができる。ここで返ってくる関数はどのような関数か。その型は何か。 *)
+let twice f = 
+    let g x = f (f x) in g
+
+let twice_double = twice twice
+
