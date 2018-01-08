@@ -12,3 +12,24 @@ let rec even lst =
 let even_test1 = even [] = []
 let even_test2 = even [2] = [2]
 let even_test3 = even [2; 1; 6; 4; 7] = [2; 6; 4]
+
+
+(* 問題 14.3: 問題 9.6 で作成した関数 concat を fold_right を使って書き直せ *)
+
+(* 目的: init から始めて lst の要素を右から順に f を施しこむ *)
+(* fold_right : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b *)
+let rec fold_right f lst init = match lst with
+    [] -> init
+  | first :: rest -> f first (fold_right f rest init)
+
+(* 目的: 文字列を後方の結果に連結する関数 *)
+let append_str first rest_result = first ^ rest_result
+
+(* concat : string list -> string *)
+let concat lst = fold_right append_str lst ""
+
+(* テスト *)   
+let concat_test1 = concat [] = ""
+let concat_test2 = concat ["春"] = "春"
+let concat_test3 = concat ["春"; "夏"; "秋"; "冬"] = "春夏秋冬"
+
