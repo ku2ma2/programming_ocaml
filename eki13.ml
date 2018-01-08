@@ -8,13 +8,12 @@
 q の最短距離の手前リストを必要に応じて更新したもの、つながっていなかったらもとの
 q をそのまま返す関数 koushin1 をデザインレシピにしたがって作れ *)
 (* koushin1 : eki_t list -> eki_t list -> eki_t list *)
-let koushin1 p q = match q with
-    {namae=pn; saitan_kyori=ps; temae_list=pt} ->
-        match p with 
-            {namae=qn; saitan_kyori=qs; temae_list=qt} ->
-                let kyori = get_ekikan_kyori pn qn global_ekikan_list in
-                    if kyori = infinity then q
-                    else {namae=qn; saitan_kyori=qs; temae_list= pn :: qt}
+let koushin1 p q = match (p, q) with
+    ({namae=pn; saitan_kyori=ps; temae_list=pt},{namae=qn; saitan_kyori=qs; temae_list=qt}) ->
+        let kyori = get_ekikan_kyori pn qn global_ekikan_list in
+            if kyori = infinity then q
+            else if ps +. kyori < qs then {namae=qn; saitan_kyori=ps +. kyori; temae_list= qn :: pt}
+            else q
 
 (* 駅の例 *) 
 let eki1 = {namae="池袋"; saitan_kyori = infinity; temae_list = []} 
