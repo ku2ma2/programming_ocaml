@@ -12,7 +12,9 @@ let koushin1 p q = match q with
     {namae=pn; saitan_kyori=ps; temae_list=pt} ->
         match p with 
             {namae=qn; saitan_kyori=qs; temae_list=qt} ->
-                q
+                let kyori = get_ekikan_kyori pn qn global_ekikan_list in
+                    if kyori = infinity then q
+                    else {namae=qn; saitan_kyori=qs; temae_list= pn :: qt}
 
 (* 駅の例 *) 
 let eki1 = {namae="池袋"; saitan_kyori = infinity; temae_list = []} 
