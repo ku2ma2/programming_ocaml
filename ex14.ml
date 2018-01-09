@@ -7,8 +7,7 @@
 例えば even [2; 1; 6; 4; 7] は [2; 6; 4] を返す *)
 (* even : int list -> int list *)
 let rec even lst = 
-    let f x = x mod 2 = 0 in
-    List.filter f lst
+    List.filter (fun x -> x mod 2 = 0) lst
 
 (* テスト *)
 let even_test1 = even [] = []
@@ -26,8 +25,7 @@ let rec fold_right f lst init = match lst with
 
 (* concat : string list -> string *)
 let concat lst = 
-    let append_str first rest_result = first ^ rest_result in 
-        fold_right append_str lst ""
+    fold_right (fun f rest_result -> f ^ rest_result ) lst ""
 
 (* テスト *)   
 let concat_test1 = concat [] = ""
@@ -53,3 +51,17 @@ let count_ketsueki_t2 = count_ketsueki person_list_t2 "A型" = 2
 let count_ketsueki_t3 = count_ketsueki person_list_t2 "B型" = 0
 let count_ketsueki_t4 = count_ketsueki person_list_t2 "AB型" = 1
 
+;;
+
+(* 問題 14.8: 整数を受け取ってきたら、その2乗から 1 を引いた数を返す名前のない関数を作れ *)
+fun x -> x * x - 1;;
+
+
+(* 問題 14.9: 問題8.3で定義した person_t 型のリストを受け取ってきたら、
+その名前フィールドを取り出す名前のない関数を作れ *)
+(* fun person -> match person with
+    {name=n; height=h; weight=w; birthday=b; blood=bl} -> n;; *)
+fun {name=n; height=h; weight=w; birthday=b; blood=bl} -> n;;
+
+
+(* 問題 14.10: 問題 14.5で作成した巻数を名前のない関数を使って書き直せ *)
