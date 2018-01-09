@@ -8,12 +8,12 @@
 q の最短距離の手前リストを必要に応じて更新したもの、つながっていなかったらもとの
 q をそのまま返す関数 koushin1 をデザインレシピにしたがって作れ *)
 (* koushin1 : eki_t -> eki_t list -> eki_t list *)
-let koushin1 p q = match (p, q) with
+(* let koushin1 p q = match (p, q) with
     ({namae=pn; saitan_kyori=ps; temae_list=pt},{namae=qn; saitan_kyori=qs; temae_list=qt}) ->
         let kyori = get_ekikan_kyori pn qn global_ekikan_list in
             if kyori = infinity then q
             else if ps +. kyori < qs then {namae=qn; saitan_kyori=ps +. kyori; temae_list= qn :: pt}
-            else q
+            else q *)
 
 (* 駅の例 *) 
 let eki1 = {namae="池袋"; saitan_kyori = infinity; temae_list = []} 
@@ -22,22 +22,29 @@ let eki3 = {namae="茗荷谷"; saitan_kyori = 0.; temae_list = ["茗荷谷"]}
 let eki4 = {namae="後楽園"; saitan_kyori = infinity; temae_list = []} 
  
 (* テスト *) 
-let koushin1_t1 = koushin1 eki3 eki1 = eki1 
+(* let koushin1_t1 = koushin1 eki3 eki1 = eki1 
 let koushin1_t2 = koushin1 eki3 eki2 = eki2 
 let koushin1_t3 = koushin1 eki3 eki3 = eki3 
 let koushin1_t4 = koushin1 eki3 eki4 = {namae="後楽園"; saitan_kyori = 1.8; temae_list = ["後楽園"; "茗荷谷"]} 
 let koushin1_t5 = koushin1 eki2 eki1 = {namae="池袋"; saitan_kyori = 3.0; temae_list = ["池袋"; "新大塚"; "茗荷谷"]} 
 let koushin1_t6 = koushin1 eki2 eki2 = eki2 
 let koushin1_t7 = koushin1 eki2 eki3 = eki3
-let koushin1_t8 = koushin1 eki2 eki4 = eki4
+let koushin1_t8 = koushin1 eki2 eki4 = eki4 *)
 
 (* 問題 13.7: 直前に確定した駅 p（eki_t型）と未確定の駅リスト v（eki_t list）を
 受け取ったら、必要な更新処理を行ったあとの未確定の駅リストを返す関数
 koushin をデザインレシピにしたがって作れ。 *)
 (* koushin : eki_t -> eki_t list -> eki_t list *)
 let koushin p v = 
-    let f x = koushin1 p x in
-    List.map f v
+    let koushin1 p1 q1 = match (p1, q1) with
+    ({namae=pn; saitan_kyori=ps; temae_list=pt},{namae=qn; saitan_kyori=qs; temae_list=qt}) ->
+        let kyori = get_ekikan_kyori pn qn global_ekikan_list in
+            if kyori = infinity then q1
+            else if ps +. kyori < qs then {namae=qn; saitan_kyori=ps +. kyori; temae_list= qn :: pt}
+            else q1
+    in 
+        let f x = koushin1 p x in
+        List.map f v
 
  
 (* 駅リストの例 *) 
