@@ -76,3 +76,12 @@ let rec enumerate n =
 
 let enumerate_t1 = enumerate 5 = [5; 4; 3; 2; 1]
 let enumerate_t3 = enumerate 0 = []
+
+(* 目的: 1から受け取った自然数までの合計を求める関数 *)
+(* one_to_n : int -> int *)
+let one_to_n n = List.fold_right (+) (enumerate n) 0
+
+let one_to_n_t1 = one_to_n 0 = 0
+let one_to_n_t2 = one_to_n 1 = 1
+let one_to_n_t3 = one_to_n 2 = 3
+let one_to_n_t4 = one_to_n 5 = 15
