@@ -34,17 +34,20 @@ let koushin1_t8 = koushin1 eki2 eki4 = eki4 *)
 (* 問題 13.7: 直前に確定した駅 p（eki_t型）と未確定の駅リスト v（eki_t list）を
 受け取ったら、必要な更新処理を行ったあとの未確定の駅リストを返す関数
 koushin をデザインレシピにしたがって作れ。 *)
+(* 問題 14.13: koushin は koushin1 を局所的に定義している。
+koushin1を局所定義する代わりに、名前の無い関数を使って koushin を定義し直せ *)
+
 (* koushin : eki_t -> eki_t list -> eki_t list *)
 let koushin p v = 
-    let koushin1 p1 q1 = match (p1, q1) with
-    ({namae=pn; saitan_kyori=ps; temae_list=pt},{namae=qn; saitan_kyori=qs; temae_list=qt}) ->
-        let kyori = get_ekikan_kyori pn qn global_ekikan_list in
-            if kyori = infinity then q1
-            else if ps +. kyori < qs then {namae=qn; saitan_kyori=ps +. kyori; temae_list= qn :: pt}
-            else q1
-    in 
-        let f x = koushin1 p x in
-        List.map f v
+     List.map (
+        fun q -> match (p, q) with
+            ({namae=pn; saitan_kyori=ps; temae_list=pt},
+            {namae=qn; saitan_kyori=qs; temae_list=qt}) ->
+                let kyori = get_ekikan_kyori pn qn global_ekikan_list in
+                    if kyori = infinity then q
+                    else if ps +. kyori < qs then {namae=qn; saitan_kyori=ps +. kyori; temae_list= qn :: pt}
+                    else q
+     ) v
 
  
 (* 駅リストの例 *) 
