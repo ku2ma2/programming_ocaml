@@ -65,3 +65,14 @@ fun {name=n; height=h; weight=w; birthday=b; blood=bl} -> n;;
 
 
 (* 問題 14.10: 問題 14.5で作成した巻数を名前のない関数を使って書き直せ *)
+
+(* 問題 14.15: 1から受け取った自然数までの合計を求める関数
+one_to_n を enumerate と高階関数を使って作れ *)
+
+(* 目的: n から 1までのリストを作る *)
+(* enumerate : int -> int list *)
+let rec enumerate n = 
+    if n = 0 then [] else n :: enumerate (n - 1)
+
+let enumerate_t1 = enumerate 5 = [5; 4; 3; 2; 1]
+let enumerate_t3 = enumerate 0 = []
