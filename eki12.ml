@@ -62,8 +62,14 @@ let shokika_t3 = shokika shokika_eki_t3 "茗荷谷" = [{namae="品川"; saitan_k
 (* 問題 14.12: よく考えて見ると make_eki_list と shokika は別々に行わなくても一度に
 やってしまうことができる。これらを一度にやってしまう関数 make_initial_eki_list を
 map と名前のない関数を使って作れ。
-ここで作った名前のない巻数は、問題 14.11 で作った２つの名前のない巻数とどのような関係にあるだろうか。 *)
-let make_initial_eki_list lst station= []
+ここで作った名前のない関数は、問題 14.11 で作った２つの名前のない関数とどのような関係にあるだろうか。 *)
+let make_initial_eki_list lst station = 
+    List.map (
+        fun ekimei -> match ekimei with 
+            {kanji=k; kana=ka; romaji=r; shozoku=s} -> 
+                if k = station then {namae=k; saitan_kyori=0.; temae_list=[k]}
+                else {namae=k; saitan_kyori=infinity; temae_list=[]}
+    ) lst
 
 
 (* テスト *)
