@@ -7,7 +7,8 @@
 (* 問題 15.4: eki_t list 型のリストを受け取ったら、
 「最短距離最小の駅」と「最短距離最小の駅以外からなるリスト」の組
 を返す関数 saitan_wo_bunki をデザインレシピにしたがって作れ *)
-(* saitan_wo_bunki : eki_t list -> eki_t * eki_t list *)
+(* saitan_wo_bunri : eki_t list -> eki_t * eki_t list *)
+let saitan_wo_bunri lst = ({namae="池袋"; saitan_kyori = infinity; temae_list = []} , [])
 
 (* 駅の例 *) 
 let eki1 = {namae="池袋"; saitan_kyori = infinity; temae_list = []} 
