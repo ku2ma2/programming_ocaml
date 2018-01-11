@@ -10,7 +10,7 @@
 
 
 (* saitan_wo_bunri : eki_t list -> eki_t * eki_t list *)
-let saitan_wo_bunri lst = match lst with
+let saitan_wo_bunri lst = 
     List.fold_right 
         (
             fun first (p, v) ->
@@ -18,7 +18,7 @@ let saitan_wo_bunri lst = match lst with
                     ( {namae=fn; saitan_kyori=fs; temae_list=ft},
                       {namae=pn; saitan_kyori=ps; temae_list=pt} ) ->
                         if fn = "" then (first, v) (* 初期値は無視 *)
-                        if fs < ps then (first, p :: v)
+                        else if fs < ps then (first, p :: v)
                         else (p, first :: v)
         )
         lst (* 適用するリスト *)
