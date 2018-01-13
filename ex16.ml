@@ -18,3 +18,16 @@ let sum_list_t2 = sum_list [3; 2; 1; 4] = [3; 5; 6; 10]
 let sum_list_t3 = sum_list [3] = [3]
 let sum_list_t4 = sum_list [3; 3] = [3; 6]
 
+
+(* 問題 16.2: 関数 fと 初期値 init, そして リスト lst を受け取ったら、
+initからはじめてリスト lst の要素を「左から」順に f を施し込む関数
+fold_let をデザインレシピに従って作れ *)
+let rec fold_left f ini lst = match lst with
+    [] -> ini
+  | first :: rest -> fold_left f (f ini first) rest
+
+(* テスト *)
+let fold_left_t1 = fold_left (-) 0 [] = 0 
+let fold_left_t2 = fold_left (-) 10 [4; 1; 3] = 2 
+let fold_left_t3 = fold_left (fun lst a -> a :: lst) [] [1; 2; 3; 4] = [4; 3; 2; 1] 
+
