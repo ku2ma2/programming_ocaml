@@ -8,7 +8,11 @@ dijkstra_main をデザインレシピにしたがって作れ。
 その際、再帰の停止性についても議論せよ。 *)
 
 (* dijkstra_main : eki_t list -> ekikan_t list -> eki_t list *)
-let dijkstra_main lst ekikan_list = []
+let dijkstra_main lst ekikan_list = match lst with
+    [] -> []
+  | first :: rest -> 
+      let (saitan, nokori) = saitan_wo_bunri first :: rest in
+      
 
 (* 駅の例 *) 
 let eki1 = {namae="池袋"; saitan_kyori = infinity; temae_list = []} 
