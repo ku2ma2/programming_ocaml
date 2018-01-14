@@ -20,9 +20,26 @@ let to_seireki nengou = match nengou with
 let nenrei nengou now = 
   to_seireki now - to_seireki nengou
 
-
 (* テスト *)
 let nenrei_t1 = nenrei (Meiji (2)) (Heisei (30)) = 149
 let nenrei_t2 = nenrei (Taisho (3)) (Heisei (30)) = 104 
 let nenrei_t3 = nenrei (Showa (11)) (Heisei (30)) = 82 
 let nenrei_t4 = nenrei (Heisei (18)) (Heisei (30)) = 12 
+
+
+(* 問題 17.2: 1月から12月までを表す構成子 January, ..., December を持つ型
+year_t を宣言せよ。構成子には日を示す引数を取るようにせよ。 *)
+type year_t =
+    January of int   (* 1月 *)
+  | February of int  (* 2月 *)
+  | March of int     (* 3月 *)
+  | April of int     (* 4月 *)
+  | May of int       (* 5月 *)
+  | June of int      (* 6月 *)
+  | July of int      (* 7月 *)
+  | August of int    (* 8月 *)
+  | September of int (* 9月 *)
+  | October of int   (* 10月 *)
+  | November of int  (* 11月 *)
+  | December of int  (* 12月 *)
+
