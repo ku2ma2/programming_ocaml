@@ -1,4 +1,3 @@
-#use "eki8.ml";;
 #use "ekimei.ml";;
 
 (* 問題 10.10: ローマ字の駅名（文字列）と駅名リスト（ekimei_t list 型）を受け取ったら、

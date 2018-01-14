@@ -39,3 +39,11 @@ type ekikan_t = {
 }
 
 
+(* 問題 12.1: 駅名（漢字の文字列）namae、最短距離（実数） saitan_kyori、
+駅名（漢字の文字列）のリスト temae_listの3つのフィールドとして持つ
+レコード型 eki_t を定義せよ。 *)
+type eki_t = {
+    namae: string;
+    saitan_kyori: float;
+    temae_list: string list;
+}
