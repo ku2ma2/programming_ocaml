@@ -1,5 +1,4 @@
-#use "eki8.ml";;
-#use "ekimei.ml";;
+#use "eki10.ml";;
 
 (* 問題 12.1: 駅名（漢字の文字列）namae、最短距離（実数） saitan_kyori、
 駅名（漢字の文字列）のリスト temae_listの3つのフィールドとして持つ

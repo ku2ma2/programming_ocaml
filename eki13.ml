@@ -1,6 +1,3 @@
-#use "eki8.ml";;
-#use "ekimei.ml";;
-#use "eki10.ml";;
 #use "eki12.ml";;
 
 (* 問題 13.6: 直前に確定した駅 p（eki_t 型）と未確定の駅 q（eki_t 型）
