@@ -36,14 +36,17 @@ let koushin1_t8 = koushin1 eki2 eki4 = eki4 *)
 koushin をデザインレシピにしたがって作れ。 *)
 (* 問題 14.13: koushin は koushin1 を局所的に定義している。
 koushin1を局所定義する代わりに、名前の無い関数を使って koushin を定義し直せ *)
+(* 問題 16.3: 問題 14.13 で作った koushin の引数をひとつ増やし、
+駅間のリスト（ekikan_t list型）を受け取るようにせよ。
+さらに koushin の中で get_ekikan_kyori を使う時にはこのリストを使うようにせよ。 *)
 
 (* koushin : eki_t -> eki_t list -> eki_t list *)
-let koushin p v = 
+let koushin p v ekikan_list = 
      List.map (
         fun q -> match (p, q) with
             ({namae=pn; saitan_kyori=ps; temae_list=pt},
             {namae=qn; saitan_kyori=qs; temae_list=qt}) ->
-                let kyori = get_ekikan_kyori pn qn global_ekikan_list in
+                let kyori = get_ekikan_kyori pn qn ekikan_list in
                     if kyori = infinity then q
                     else if ps +. kyori < qs then {namae=qn; saitan_kyori=ps +. kyori; temae_list= qn :: pt}
                     else q
@@ -54,7 +57,9 @@ let koushin p v =
 let koushin_lst = [eki1; eki2; eki3; eki4] 
  
 (* テスト *) 
-let koushin_t1 = koushin eki2 [] = [] 
-let koushin_t2 = koushin eki2 koushin_lst = 
+let koushin_t1 = koushin eki2 [] global_ekikan_list = [] 
+let koushin_t2 = koushin eki2 koushin_lst global_ekikan_list = 
  [{namae="池袋"; saitan_kyori = 3.0; temae_list = ["池袋"; "新大塚"; "茗荷谷"]}; 
   eki2; eki3; eki4] 
+ 
+
