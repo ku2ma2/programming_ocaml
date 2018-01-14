@@ -1,3 +1,4 @@
+#use "ekikan.ml";;
 #use "eki15.ml";;
 
 (* 問題 16.4: eki_t list 型の（未確定の）駅のリストと ekikan_t list 型の
@@ -42,6 +43,14 @@ let dijkstra_main_t2 = dijkstra_main dijkstra_main_lst global_ekikan_list =
 
 ような関数 dijkstara をデザインレシピに従って作れ。 *)
 
+let make_initial_eki_list ekimei_list kiten = 
+    List.map (fun ekimei -> match ekimei with 
+           {kanji = k; kana = a; romaji = r; shozoku = s} -> 
+             if k = kiten 
+             then {namae = k; saitan_kyori = 0.; temae_list = [k]} 
+             else {namae = k; saitan_kyori = infinity; temae_list = []}) 
+         ekimei_list 
+
 (* 目的：受け取った eki_list から shuten のレコードを探し出す *) 
 (* find : string -> eki_t list -> eki_t *) 
 let rec find shuten eki_list = match eki_list with 
@@ -59,16 +68,19 @@ let dijkstra shiten shuten =
 
 
 (* テスト *)
+
 let test1 = dijkstra "shibuya" "gokokuji" = 
   {namae = "護国寺"; saitan_kyori = 9.8; 
    temae_list = 
      ["護国寺"; "江戸川橋"; "飯田橋"; "市ヶ谷"; "麹町"; "永田町"; 
       "青山一丁目"; "表参道"; "渋谷"]} 
-let test2 = dijkstra "myogadani" "meguro" = 
+(* let test2 = dijkstra "myogadani" "meguro" = 
   {namae = "目黒"; saitan_kyori = 12.7000000000000028; 
    temae_list = 
      ["目黒"; "白金台"; "白金高輪"; "麻布十番"; "六本木一丁目"; "溜池山王"; 
-      "永田町"; "麹町"; "市ヶ谷"; "飯田橋"; "後楽園"; "茗荷谷"]} 
+      "永田町"; "麹町"; "市ヶ谷"; "飯田橋"; "後楽園"; "茗荷谷"]}  *)
+
+let test2 = dijkstra "myogadani" "meguro"
  
 (* 最短距離が 12.7 にならないのは、小数を２進数で表現するときの誤差のため。 
    ここではテスト結果も書いたが、これをテスト作成時に予想するのは無理なので 

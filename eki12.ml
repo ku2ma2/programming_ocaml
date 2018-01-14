@@ -1,13 +1,6 @@
 #use "eki10.ml";;
 
-(* 問題 12.1: 駅名（漢字の文字列）namae、最短距離（実数） saitan_kyori、
-駅名（漢字の文字列）のリスト temae_listの3つのフィールドとして持つ
-レコード型 eki_t を定義せよ。 *)
-type eki_t = {
-    namae: string;
-    saitan_kyori: float;
-    temae_list: string list;
-}
+
 
 (* 問題 14.11: 問題12.2 で作った関数 make_eki_list と 問題 12.3　で作った関数 shokika
 はどちらもリストの全要素に対して同じ処理を施していると見ることもできる。
@@ -62,19 +55,19 @@ let shokika_t3 = shokika shokika_eki_t3 "茗荷谷" = [{namae="品川"; saitan_k
 やってしまうことができる。これらを一度にやってしまう関数 make_initial_eki_list を
 map と名前のない関数を使って作れ。
 ここで作った名前のない関数は、問題 14.11 で作った２つの名前のない関数とどのような関係にあるだろうか。 *)
-let make_initial_eki_list lst station = 
+(* let make_initial_eki_list lst station = 
     List.map (
         fun ekimei -> match ekimei with 
             {kanji=k; kana=ka; romaji=r; shozoku=s} -> 
                 if k = station then {namae=k; saitan_kyori=0.; temae_list=[k]}
                 else {namae=k; saitan_kyori=infinity; temae_list=[]}
-    ) lst
+    ) lst *)
 
 
 (* テスト *)
-let make_initial_eki_list_t1 = make_initial_eki_list eki_list1 "品川" = []
+(* let make_initial_eki_list_t1 = make_initial_eki_list eki_list1 "品川" = []
 let make_initial_eki_list_t2 = make_initial_eki_list eki_list2 "品川" = [{namae="品川"; saitan_kyori=0.; temae_list=["品川"]}]
-let make_initial_eki_list_t3 = make_initial_eki_list eki_list3 "茗荷谷" = [{namae="品川"; saitan_kyori=infinity; temae_list=[]}; {namae="茗荷谷"; saitan_kyori=0.; temae_list=["茗荷谷"]}]
+let make_initial_eki_list_t3 = make_initial_eki_list eki_list3 "茗荷谷" = [{namae="品川"; saitan_kyori=infinity; temae_list=[]}; {namae="茗荷谷"; saitan_kyori=0.; temae_list=["茗荷谷"]}] *)
 
 
 (* 問題 12.4: ekimei_t 型のリストを受け取ったら、それをひらがなの順に整列し
