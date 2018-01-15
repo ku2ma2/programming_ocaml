@@ -2,10 +2,10 @@
 年齢を返す関数 nenrei をデザインレシピにしたがって作れ。 *)
 
 (* 年号を表す型 *)
-type nengou_t = Meiji of int   (* 明治 *)
-              | Taisho of int  (* 大正 *)
-              | Showa of int   (* 昭和 *)
-              | Heisei of int  (* 平成 *)
+type nengou_t = Meiji of int  (* 明治 *)
+              | Taisho of int (* 大正 *)
+              | Showa of int  (* 昭和 *)
+              | Heisei of int (* 平成 *)
 
 (* 目的: 年号を受け取ったら対応する西暦年を返す *)
 (* to_seireki : nengou_t -> int *)
@@ -58,5 +58,27 @@ type seiza_t =
 | Scorpius    (* 蠍座 *)
 | Sagittarius (* 射手座 *)
 
+(* 問題 17.4: year_t 型の値を受け取ってきたら、 seiza_t 型の星座を返す関数
+seiza をデザインレシピに従って作れ。 *)
+(* seiza : year_t -> seiza_t *)
+let seiza date = match date with
+    January (n) -> if 1 <= n && n <= 19 then Capricorus else Aquarius
+  | February (n) -> if 1 <= n && n <= 18 then Aquarius else Pisces
+  | March (n) -> if 1 <= n && n <= 20 then Pisces else Aries
+  | April (n) -> if 1 <= n && n <= 19 then Aries else Taurus
+  | May (n) -> if 1 <= n && n <= 20 then Taurus else Gemini
+  | June (n) -> if 1 <= n && n <= 21 then Gemini else Cancer
+  | July (n) -> if 1 <= n && n <= 22 then Cancer else Leo
+  | August (n) -> if 1 <= n && n <= 22 then Leo else Virgo
+  | September (n) -> if 1 <= n && n <= 22 then Virgo else Libra
+  | October (n) -> if 1 <= n && n <= 23 then Libra else Scorpius
+  | November (n) -> if 1 <= n && n <= 22 then Scorpius else Sagittarius
+  | December (n) -> if 1 <= n && n <= 21 then Sagittarius else Capricorus
+
+
+(* テスト *)
+let seiza_t1 = seiza (June (25)) = Cancer
+let seiza_t2 = seiza (September (12)) = Virgo
+let seiza_t3 = seiza (December (12)) = Sagittarius
 
 
