@@ -82,3 +82,23 @@ let seiza_t2 = seiza (September (12)) = Virgo
 let seiza_t3 = seiza (December (12)) = Sagittarius
 
 
+(* 木を表す型 *)
+type tree_t = 
+    Empty                      (* 空の木 *)
+  | Leaf of int                   (* 葉 *)
+  | Node of tree_t * int * tree_t (* 節 *)
+
+(* 問題 17.5 : tree_t 型の木を受け取ったら、節や葉に入っている値を
+全て２倍にした木を返す関数 tree_double をデザインレシピにしたがって作れ。 *)
+let tree_double tree = Empty
+
+(* テスト *)
+let tree_t1 = Empty
+let tree_t2 = Leaf (3)
+let tree_t3 = Node (tree_t1, 4, tree_t2)
+let tree_t4 = Node (tree_t2, 5, tree_t3)
+
+let tree_double_t1 = tree_double tree_t1 = Empty 
+let tree_double_t2 = tree_double tree_t2 = Node (Empty, 8, Leaf (6))
+let tree_double_t3 = tree_double tree_t3 = Node (Leaf (6), 10, Node (Empty, 8, Leaf (6)))
+
