@@ -90,7 +90,10 @@ type tree_t =
 
 (* 問題 17.5 : tree_t 型の木を受け取ったら、節や葉に入っている値を
 全て２倍にした木を返す関数 tree_double をデザインレシピにしたがって作れ。 *)
-let tree_double tree = Empty
+let rec tree_double tree = match tree with
+    Empty -> Empty
+  | Leaf (n) -> Leaf (n * 2)
+  | Node (ln, n, rn) -> Node (tree_double ln, (n * 2), tree_double rn)
 
 (* テスト *)
 let tree_t1 = Empty
@@ -99,6 +102,7 @@ let tree_t3 = Node (tree_t1, 4, tree_t2)
 let tree_t4 = Node (tree_t2, 5, tree_t3)
 
 let tree_double_t1 = tree_double tree_t1 = Empty 
-let tree_double_t2 = tree_double tree_t2 = Node (Empty, 8, Leaf (6))
-let tree_double_t3 = tree_double tree_t3 = Node (Leaf (6), 10, Node (Empty, 8, Leaf (6)))
+let tree_double_t2 = tree_double tree_t2 = Leaf (6)
+let tree_double_t3 = tree_double tree_t3 = Node (Empty, 8, Leaf (6))
+let tree_double_t4 = tree_double tree_t4 = Node (Leaf (6), 10, Node (Empty, 8, Leaf (6)))
 
