@@ -106,3 +106,26 @@ let tree_double_t2 = tree_double tree_t2 = Leaf (6)
 let tree_double_t3 = tree_double tree_t3 = Node (Empty, 8, Leaf (6))
 let tree_double_t4 = tree_double tree_t4 = Node (Leaf (6), 10, Node (Empty, 8, Leaf (6)))
 
+
+(* 問題 17.5: int -> int 型の関数 f と tree_t 型の木を受け取ったら、
+節や葉に入っている値すべてに f を適用した木を返す関数 tree_map 
+をデザインレシピに従って作れ *)
+let rec tree_map f tree = match tree with
+    Empty -> Empty
+  | Leaf (n) -> Leaf (f n)
+  | Node (ln, n, rn) -> Node (tree_map f ln, (f n), tree_map f rn)
+
+(* f 用のテスト関数 *)
+let square n = n * n
+let minus2 n = n - 2
+
+(* テスト *)
+let tree_map_t1 = tree_map square tree_t1 = Empty 
+let tree_map_t2 = tree_map square tree_t2 = Leaf (9)
+let tree_map_t3 = tree_map square tree_t3 = Node (Empty, 16, Leaf (9))
+let tree_map_t4 = tree_map square tree_t4 = Node (Leaf (9), 25, Node (Empty, 16, Leaf (9)))
+let tree_map_t5 = tree_map minus2 tree_t1 = Empty 
+let tree_map_t6 = tree_map minus2 tree_t2 = Leaf (1)
+let tree_map_t7 = tree_map minus2 tree_t3 = Node (Empty, 2, Leaf (1))
+let tree_map_t8 = tree_map minus2 tree_t4 = Node (Leaf (1), 3, Node (Empty, 2, Leaf (1)))
+
