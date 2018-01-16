@@ -129,3 +129,16 @@ let tree_map_t6 = tree_map minus2 tree_t2 = Leaf (1)
 let tree_map_t7 = tree_map minus2 tree_t3 = Node (Empty, 2, Leaf (1))
 let tree_map_t8 = tree_map minus2 tree_t4 = Node (Leaf (1), 3, Node (Empty, 2, Leaf (1)))
 
+
+(* 問題 17.7: tree_t 型の木を受け取ったら、節や葉が合計いくつあるかを返す関数
+tree_length をデザインレシピにしたがって作れ。 *)
+let rec tree_length tree = match tree with
+    Empty -> 0
+  | Leaf (n) -> 1
+  | Node (ln, n, rn) -> (tree_length ln) + 1 + (tree_length rn)
+
+(* テスト *)
+let tree_length_t1 = tree_length tree_t1 = 0 
+let tree_length_t2 = tree_length tree_t2 = 1
+let tree_length_t3 = tree_length tree_t3 = 2
+let tree_length_t4 = tree_length tree_t4 = 4
