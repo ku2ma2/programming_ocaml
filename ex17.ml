@@ -90,7 +90,11 @@ type tree_t =
 
 (* 問題 17.5 : tree_t 型の木を受け取ったら、節や葉に入っている値を
 全て２倍にした木を返す関数 tree_double をデザインレシピにしたがって作れ。 *)
-let tree_double tree = Empty
+(* tree_double : tree_t -> tree_t *)
+let rec tree_double tree = match tree with
+    Empty -> Empty
+  | Leaf (n) -> Leaf (n * 2)
+  | Node (ln, n, rn) -> Node (tree_double ln, (n * 2), tree_double rn)
 
 (* テスト *)
 let tree_t1 = Empty
@@ -99,6 +103,53 @@ let tree_t3 = Node (tree_t1, 4, tree_t2)
 let tree_t4 = Node (tree_t2, 5, tree_t3)
 
 let tree_double_t1 = tree_double tree_t1 = Empty 
-let tree_double_t2 = tree_double tree_t2 = Node (Empty, 8, Leaf (6))
-let tree_double_t3 = tree_double tree_t3 = Node (Leaf (6), 10, Node (Empty, 8, Leaf (6)))
+let tree_double_t2 = tree_double tree_t2 = Leaf (6)
+let tree_double_t3 = tree_double tree_t3 = Node (Empty, 8, Leaf (6))
+let tree_double_t4 = tree_double tree_t4 = Node (Leaf (6), 10, Node (Empty, 8, Leaf (6)))
+
+
+(* 問題 17.5: int -> int 型の関数 f と tree_t 型の木を受け取ったら、
+節や葉に入っている値すべてに f を適用した木を返す関数 tree_map 
+をデザインレシピに従って作れ *)
+(* tree_map : (int -> int) tree_t -> tree_t *)
+let rec tree_map f tree = match tree with
+    Empty -> Empty
+  | Leaf (n) -> Leaf (f n)
+  | Node (ln, n, rn) -> Node (tree_map f ln, (f n), tree_map f rn)
+
+(* f 用のテスト関数 *)
+let square n = n * n
+let minus2 n = n - 2
+
+(* テスト *)
+let tree_map_t1 = tree_map square tree_t1 = Empty 
+let tree_map_t2 = tree_map square tree_t2 = Leaf (9)
+let tree_map_t3 = tree_map square tree_t3 = Node (Empty, 16, Leaf (9))
+let tree_map_t4 = tree_map square tree_t4 = Node (Leaf (9), 25, Node (Empty, 16, Leaf (9)))
+let tree_map_t5 = tree_map minus2 tree_t1 = Empty 
+let tree_map_t6 = tree_map minus2 tree_t2 = Leaf (1)
+let tree_map_t7 = tree_map minus2 tree_t3 = Node (Empty, 2, Leaf (1))
+let tree_map_t8 = tree_map minus2 tree_t4 = Node (Leaf (1), 3, Node (Empty, 2, Leaf (1)))
+
+
+(* 問題 17.7: tree_t 型の木を受け取ったら、節や葉が合計いくつあるかを返す関数
+tree_length をデザインレシピにしたがって作れ。 *)
+(* tree_length : tree_t -> int *)
+let rec tree_length tree = match tree with
+    Empty -> 0
+  | Leaf (n) -> 1
+  | Node (ln, n, rn) -> (tree_length ln) + 1 + (tree_length rn)
+
+(* テスト *)
+let tree_length_t1 = tree_length tree_t1 = 0 
+let tree_length_t2 = tree_length tree_t2 = 1
+let tree_length_t3 = tree_length tree_t3 = 2
+let tree_length_t4 = tree_length tree_t4 = 4
+
+
+(* 問題 17.8: tree_t 型の木を受け取ったら、木の深さを返す関数 tree_depth
+をデザインレシピにしたがって作れ。ここで木の深さは根から葉、
+また空の木に至る最長の道に含まれる節の数と定義される。ふたつの値の大きい方を返す
+関数 max を使っても良い。 *)
+
 
