@@ -152,4 +152,20 @@ let tree_length_t4 = tree_length tree_t4 = 4
 また空の木に至る最長の道に含まれる節の数と定義される。ふたつの値の大きい方を返す
 関数 max を使っても良い。 *)
 
+(* tree_depth : tree_t -> int *) 
+let rec tree_depth tree = match tree with 
+    Empty -> 0
+  | Leaf (n) -> 0
+  | Node (ln, n, rn) -> 1 + max (tree_depth ln) (tree_depth rn)
+
+(* テスト *)
+let depth_t1 = Empty
+let depth_t2 = Leaf (3)
+let depth_t3 = Node (depth_t1, 4, depth_t2)
+let depth_t4 = Node (depth_t2, 5, depth_t3)
+
+let tree_depth_t1 = tree_depth depth_t1 = 0
+let tree_depth_t2 = tree_depth depth_t2 = 0
+let tree_depth_t3 = tree_depth depth_t3 = 1
+let tree_depth_t4 = tree_depth depth_t4 = 2
 
