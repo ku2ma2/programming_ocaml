@@ -19,10 +19,14 @@ type eki_t = {
     temae_list: string list;
 }
 
+type ekikan_tree_t = 
+    Empty
+  | Node of ekikan_tree_t * string * (string * float) list * ekikan_tree_t
+
 ;;
+
 #use "ekimei.ml";;
 #use "ekikan.ml";;
-#use "eki17.14.ml";;
 
 
 (* ローマ字の駅名（文字列）と駅名リスト（ekimei_t list 型）を受け取ったら、
@@ -38,7 +42,62 @@ let rec romaji_to_kanji station lst = match lst with
     if r = station then n
     else romaji_to_kanji station rest
 
-(* get_ekikan_kyori は eki17.14.ml から読み込む *)
+
+(* 問題 17.11: 「駅名」と「駅名と距離の組のリスト」を受け取ったら、その駅までの距離を返す関数
+駅がリストに見つからない場合は infinity を返すようにせよ。
+例えば
+assoc "後楽園" [("新大塚", 1.2); ("後楽園", 1.8)] なら 1.8 が、また
+assoc "池袋" [("新大塚", 1.2); ("後楽園", 1.8)] なら infinity が返ってくる。 *)
+let rec assoc check_eki lst = match lst with
+   [] -> infinity
+  | (eki, distance) :: rest -> 
+      if eki = check_eki then distance
+      else assoc check_eki rest
+
+(* 問題 17.12: ekikan_tree_t 型の木と ekikan_t 型の駅間を受け取ったら、
+その情報を挿入した木を返す関数
+
+{kiten = "新大塚"; shuten = "茗荷谷"; keiyu = "丸ノ内線"; kyori = 1.2; jikan = 2}
+という駅間を挿入するなら
+
+- 新大塚が木にあるかを調べ、なければ追加する。
+  その上で ("茗荷谷", 1.2)という組を新大塚の節のリストに加える。
+- 茗荷谷が木にあるかを調べ、なければ追加する。
+  その上で ("新大塚", 1.2)という組を茗荷谷の節のリストに加える。
+
+のふたつである。 *)
+(* 目的：受け取った kiten, shuten, kyori を ekikan_tree に挿入した木を返す *) 
+(* ins_ekikan : ekikan_tree_t -> string -> string -> float -> ekikan_tree_t *)
+let rec ins_ekikan ekikan_tree kiten shuten kyori = match ekikan_tree with
+    Empty -> Node (Empty, kiten, [(shuten, kyori)], Empty)
+  | Node (ln, eki, connect, rn) -> 
+      if kiten < eki
+          then Node ((ins_ekikan ln kiten shuten kyori), eki, connect, rn)
+      else if kiten > eki
+          then Node (ln, eki, connect, (ins_ekikan rn kiten shuten kyori))
+      else Node (ln, eki, (shuten, kyori) :: connect, rn)
+
+(* ins_ekikan を始点と終点を入れ替えて2回呼ぶことでリストを作っている *)
+(* insert_ekikan : ekikan_tree_t -> ekikan_t -> ekikan_tree_t *)
+let insert_ekikan ekikan_tree ekikan = match ekikan with 
+    {kiten=k; shuten=s; keiyu=kei; kyori=d; jikan=j} ->
+        ins_ekikan (ins_ekikan ekikan_tree s k d) k s d
+
+(* 問題 17.13: ekikan_tree_t 型の木と ekikan_t list 型の
+駅間リストを受け取ったら、リストの中に含まれる駅間を全て挿入した木を返す関数 *)
+(* inserts_ekikan : ekikan_tree_t -> ekikan_t list -> ekikan_tree_t *)
+let inserts_ekikan ekikan_tree ekikan_list = 
+    List.fold_left insert_ekikan ekikan_tree ekikan_list
+
+(* 問題 17.14: （漢字の）駅名ふたつと ekikan_tree_t 型の木を
+受け取ってきたら、その2駅間の距離を返す関数 *)
+(* get_ekikan_kyori : string -> string -> ekikan_tree_t -> float *)
+let rec get_ekikan_kyori eki1 eki2 eki_tree = match eki_tree with
+    Empty -> infinity
+  | Node (ln, leki, eki_lst, rn) -> 
+      if eki1 < leki then get_ekikan_kyori eki1 eki2 ln
+      else if eki1 > leki then get_ekikan_kyori eki1 eki2 rn
+      else assoc eki2 eki_lst
 
 
 (* 直前に確定した駅 p（eki_t型）と未確定の駅リスト v（eki_t list）と
@@ -58,23 +117,21 @@ let koushin p v ekikan_tree =
 
 (* eki_t list 型のリストを受け取ったら、
 「最短距離最小の駅」と「最短距離最小の駅以外からなるリスト」の組を返す関数 *)
-(* saitan_wo_bunri : eki_t list -> eki_t * eki_t list *)
-let saitan_wo_bunri lst = 
+(* saitan_wo_bunri : eki_t -> eki_t list -> eki_t * eki_t list *)
+let saitan_wo_bunri eki lst = 
     List.fold_right 
         (
             fun first (p, v) ->
                 match (first, p) with 
                     ( {namae=fn; saitan_kyori=fs; temae_list=ft},
                       {namae=pn; saitan_kyori=ps; temae_list=pt} ) ->
-                      (* 初期値だったら最小の駅を差替えてリストにはなにもしない *)
-                      if pn = "" then (first, v) 
                       (* 最短距離が小さい駅だった場合は、最小の駅の差替えとリストへの追加 *)
-                      else if fs < ps then (first, p :: v)
+                      if fs < ps then (first, p :: v)
                       (* それ以外はvリストへの追加のみにする p はそのまま p *)
                       else (p, first :: v) 
         )
         lst (* 適用するリスト *)
-        ({namae=""; saitan_kyori = infinity; temae_list = []}, []) (* 初期値 *)
+        (eki, []) (* 初期値 *)
 
 (* eki_t list 型の（未確定の）駅のリストと ekikan_tree_t 型の
 駅間の木構造を受け取ったら、ダイクストラのアルゴリズムにしたがって各駅について
@@ -83,7 +140,7 @@ let saitan_wo_bunri lst =
 let rec dijkstra_main lst ekikan_tree = match lst with
     [] -> []
   | first :: rest -> 
-      let (saitan, nokori) = saitan_wo_bunri (first :: rest) in
+      let (saitan, nokori) = saitan_wo_bunri first rest in
       let result = koushin saitan nokori ekikan_tree in 
       saitan :: dijkstra_main result ekikan_tree
 
