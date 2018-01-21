@@ -22,7 +22,7 @@ type eki_t = {
 ;;
 #use "ekimei.ml";;
 #use "ekikan.ml";;
-(* #use "eki17.14.ml";; *)
+#use "eki17.14.ml";;
 
 
 (* ローマ字の駅名（文字列）と駅名リスト（ekimei_t list 型）を受け取ったら、
@@ -38,31 +38,19 @@ let rec romaji_to_kanji station lst = match lst with
     if r = station then n
     else romaji_to_kanji station rest
 
-(* 問題 10.11: 漢字の駅名をふたつ（いずれも文字列）と駅間リスト（ekikan_t list型）
-を受け取ったら、駅間リストの中からその2駅間の距離を返すを返す関数
-```
-get_ekikan_kyori "茗荷谷" "新大塚" global_ekikkan_list
-```
-は 1.2 を返す。2駅が直接繋がっている場合のみその距離を返し、直接繋がっていない場合は無限大
-infinity を返すようにせよ。 *)
-
-(* get_ekikan_kyori : string -> string -> ekikan_t list -> float *)
-let rec get_ekikan_kyori eki1 eki2 lst = match lst with
-    [] -> infinity
-  | {kiten=k; shuten=s; keiyu=keiyu; kyori=kyori; jikan=j} :: rest -> 
-      if (k = eki1 && s = eki2) || (s = eki1 && k = eki2) then kyori
-      else get_ekikan_kyori eki1 eki2 rest
+(* get_ekikan_kyori は eki17.14.ml から読み込む *)
 
 
-(* 直前に確定した駅 p（eki_t型）と未確定の駅リスト v（eki_t list）を
-受け取ったら、必要な更新処理を行ったあとの未確定の駅リストを返す関数 *)
-(* koushin : eki_t -> eki_t list -> eki_t list *)
-let koushin p v ekikan_list = 
+(* 直前に確定した駅 p（eki_t型）と未確定の駅リスト v（eki_t list）と
+駅間の木構造 (ekikan_tree)を受け取ったら、必要な更新処理を行ったあとの
+未確定の駅リストを返す関数 *)
+(* koushin : eki_t -> eki_t list -> ekikan_tree_t -> eki_t list *)
+let koushin p v ekikan_tree = 
     List.map (
        fun q -> match (p, q) with
            ({namae=pn; saitan_kyori=ps; temae_list=pt},
            {namae=qn; saitan_kyori=qs; temae_list=qt}) ->
-               let kyori = get_ekikan_kyori pn qn ekikan_list in
+               let kyori = get_ekikan_kyori pn qn ekikan_tree in
                    if kyori = infinity then q
                    else if ps +. kyori < qs then {namae=qn; saitan_kyori=ps +. kyori; temae_list= qn :: pt}
                    else q
@@ -88,16 +76,16 @@ let saitan_wo_bunri lst =
         lst (* 適用するリスト *)
         ({namae=""; saitan_kyori = infinity; temae_list = []}, []) (* 初期値 *)
 
-(* eki_t list 型の（未確定の）駅のリストと ekikan_t list 型の
-駅間のリストを受け取ったら、ダイクストラのアルゴリズムにしたがって各駅について
+(* eki_t list 型の（未確定の）駅のリストと ekikan_tree_t 型の
+駅間の木構造を受け取ったら、ダイクストラのアルゴリズムにしたがって各駅について
 最短距離と最短経路が正しく入ったリスト（eki_t list 型）を返す関数 *)
-(* dijkstra_main : eki_t list -> ekikan_t list -> eki_t list *)
-let rec dijkstra_main lst ekikan_list = match lst with
+(* dijkstra_main : eki_t list -> ekikan_tree_t -> eki_t list *)
+let rec dijkstra_main lst ekikan_tree = match lst with
     [] -> []
   | first :: rest -> 
       let (saitan, nokori) = saitan_wo_bunri (first :: rest) in
-      let result = koushin saitan nokori ekikan_list in 
-      saitan :: dijkstra_main result ekikan_list 
+      let result = koushin saitan nokori ekikan_tree in 
+      saitan :: dijkstra_main result ekikan_tree
 
 (* 始点の駅名（ローマ字の文字列）と終点の駅名（ローマ字の文字列）を受け取ったら
 - romaji_to_kanji （問題 10.10）を使って始点と終点の漢字表記（文字列）を求め
@@ -125,7 +113,8 @@ let dijkstra shiten shuten =
     let start_eki = romaji_to_kanji shiten global_ekimei_list in
     let end_eki = romaji_to_kanji shuten global_ekimei_list in
     let eki_list_prev = make_initial_eki_list global_ekimei_list start_eki in
-    let eki_list = dijkstra_main eki_list_prev global_ekikan_list in
+    let global_ekikan_tree = inserts_ekikan Empty global_ekikan_list in
+    let eki_list = dijkstra_main eki_list_prev global_ekikan_tree in
         find end_eki eki_list
 
 
@@ -135,4 +124,3 @@ let test1 = dijkstra "shibuya" "gokokuji" =
    temae_list = 
      ["護国寺"; "江戸川橋"; "飯田橋"; "市ヶ谷"; "麹町"; "永田町"; 
       "青山一丁目"; "表参道"; "渋谷"]} 
-

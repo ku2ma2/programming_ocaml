@@ -1,4 +1,4 @@
-#use "eki8.ml";;
+
 #use "eki17.10.ml";;
 
 (* 問題 17.12: ekikan_tree_t 型の木と ekikan_t 型の駅間を受け取ったら、
