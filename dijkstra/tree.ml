@@ -17,7 +17,7 @@ module Tree = struct
             if k = key then Node (left, key, v, right)
             else if k < key
                 then Node (insert left k v, key, value, right)
-                else Node (left, key, value, insert left right k v)
+                else Node (left, key, value, insert right k v)
 
     (* 目的 : tree の中のキー k に対応する値を探して返す *)
     (* みつからなければ例外 Not_found を起こす *)
@@ -28,5 +28,4 @@ module Tree = struct
         if k = key then value
         else if k < key then search left k
                         else search right k
-
 end
