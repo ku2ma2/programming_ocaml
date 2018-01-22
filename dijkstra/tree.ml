@@ -21,6 +21,12 @@ module Tree = struct
 
     (* 目的 : tree の中のキー k に対応する値を探して返す *)
     (* みつからなければ例外 Not_found を起こす *)
-    
+    (* search : ('a, 'b) t -> 'a -> 'b *)
+    let rec search tree k = match tree with
+        Empty -> raise Not_found
+      | Node (left, key, value, right) ->
+        if k = key then value
+        else if k < key then search left k
+                        else search right k
 
 end
