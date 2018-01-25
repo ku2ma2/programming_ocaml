@@ -1,7 +1,8 @@
 
 
-type ('a, 'b) t
+type ('a, 'b) rb_tree_t
 
-val empty : ('a, 'b) t
-val insert : ('a, 'b) t -> 'a -> 'b -> ('a, 'b) t
-val search : ('a, 'b) t -> 'a -> 'b
+val empty : ('a, 'b) rb_tree_t
+val balance : ('a, 'b) rb_tree_t -> ('a, 'b) rb_tree_t
+val insert : ('a, 'b) rb_tree_t -> 'a -> 'b -> ('a, 'b) rb_tree_t
+val search : ('a, 'b) rb_tree_t -> 'a -> 'b
