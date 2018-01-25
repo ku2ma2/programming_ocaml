@@ -19,14 +19,10 @@ type eki_t = {
     temae_list: string list;
 }
 
-type ekikan_tree_t = 
-    Empty
-  | Node of ekikan_tree_t * string * (string * float) list * ekikan_tree_t
-
 (* 問題 18.6 *)
 exception No_such_station of string
 
-;;
+;; 
 
 #use "ekimei.ml";;
 #use "ekikan.ml";;
@@ -70,38 +66,39 @@ let rec assoc check_eki lst = match lst with
 
 のふたつである。 *)
 (* 目的：受け取った kiten, shuten, kyori を ekikan_tree に挿入した木を返す *) 
-(* ins_ekikan : ekikan_tree_t -> string -> string -> float -> ekikan_tree_t *)
-let rec ins_ekikan ekikan_tree kiten shuten kyori = match ekikan_tree with
-    Empty -> Node (Empty, kiten, [(shuten, kyori)], Empty)
-  | Node (ln, eki, connect, rn) -> 
-      if kiten < eki
-          then Node ((ins_ekikan ln kiten shuten kyori), eki, connect, rn)
-      else if kiten > eki
-          then Node (ln, eki, connect, (ins_ekikan rn kiten shuten kyori))
-      else Node (ln, eki, (shuten, kyori) :: connect, rn)
+(* ins_ekikan : (string * (string * float) list) RedBlack.t -> 
+	      string -> string -> float -> 
+	     (string * (string * float) list) RedBlack.t *) 
+let rec ins_ekikan ekikan_tree kiten shuten kyori = 
+    let lst = try 
+        RedBlack.search ekikan_tree kiten 
+        with Not_found -> [] 
+    in RedBlack.insert ekikan_tree kiten ((shuten, kyori) :: lst) 
+
 
 (* ins_ekikan を始点と終点を入れ替えて2回呼ぶことでリストを作っている *)
-(* insert_ekikan : ekikan_tree_t -> ekikan_t -> ekikan_tree_t *)
+(* insert_ekikan : (string * (string * float) list) RedBlack.t -> ekikan_t ->
+ (string * (string * float) list) RedBlack.t *) 
 let insert_ekikan ekikan_tree ekikan = match ekikan with 
     {kiten=k; shuten=s; keiyu=kei; kyori=d; jikan=j} ->
         ins_ekikan (ins_ekikan ekikan_tree s k d) k s d
 
+
 (* 問題 17.13: ekikan_tree_t 型の木と ekikan_t list 型の
 駅間リストを受け取ったら、リストの中に含まれる駅間を全て挿入した木を返す関数 *)
-(* inserts_ekikan : ekikan_tree_t -> ekikan_t list -> ekikan_tree_t *)
+(* inserts_ekikan :
+(string * (string * float) list) RedBlack.t -> 
+ekikan_t list -> 
+(string * (string * float) list) RedBlack.t *) 
 let inserts_ekikan ekikan_tree ekikan_list = 
     List.fold_left insert_ekikan ekikan_tree ekikan_list
 
 (* 問題 17.14: （漢字の）駅名ふたつと ekikan_tree_t 型の木を
 受け取ってきたら、その2駅間の距離を返す関数 *)
-(* get_ekikan_kyori : string -> string -> ekikan_tree_t -> float *)
-let rec get_ekikan_kyori eki1 eki2 eki_tree = match eki_tree with
-    Empty -> raise Not_found
-  | Node (ln, leki, eki_lst, rn) -> 
-      if eki1 < leki then get_ekikan_kyori eki1 eki2 ln
-      else if eki1 > leki then get_ekikan_kyori eki1 eki2 rn
-      else assoc eki2 eki_lst
-
+(* get_ekikan_kyori : string -> string -> 
+(string * (string * float) list) RedBlack.t -> float *) 
+let rec get_ekikan_kyori eki1 eki2 eki_tree = 
+    List.assoc eki2 (RedBlack.search eki_tree eki1) 
 
 (* 直前に確定した駅 p（eki_t型）と未確定の駅リスト v（eki_t list）と
 駅間の木構造 (ekikan_tree)を受け取ったら、必要な更新処理を行ったあとの
@@ -174,7 +171,7 @@ let dijkstra shiten shuten =
     let start_eki = romaji_to_kanji shiten global_ekimei_list in
     let end_eki = romaji_to_kanji shuten global_ekimei_list in
     let eki_list_prev = make_initial_eki_list global_ekimei_list start_eki in
-    let global_ekikan_tree = inserts_ekikan Empty global_ekikan_list in
+    let global_ekikan_tree = inserts_ekikan RedBlack.empty global_ekikan_list in
     let eki_list = dijkstra_main eki_list_prev global_ekikan_tree in
         find end_eki eki_list
 

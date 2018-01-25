@@ -1,4 +1,4 @@
-SOURCES = tree.mli tree.ml
-RESULT = my-tree
+SOURCES = redBlack.mli redBlack.ml
+RESULT = redBlack
 OCAMLMAKEFILE = ~/ocaml-makefile-master/OCAMLMAKEFILE
 include $(OCAMLMAKEFILE)
