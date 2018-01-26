@@ -28,6 +28,8 @@ exception No_such_station of string
 #use "ekikan.ml";;
 
 
+open RedBlack
+
 (* ローマ字の駅名（文字列）と駅名リスト（ekimei_t list 型）を受け取ったら、
 その駅の漢字表記を文字列で返す関数
 ```
@@ -71,9 +73,9 @@ let rec assoc check_eki lst = match lst with
 	     (string * (string * float) list) RedBlack.t *) 
 let rec ins_ekikan ekikan_tree kiten shuten kyori = 
     let lst = try 
-        RedBlack.search ekikan_tree kiten 
+        search ekikan_tree kiten 
         with Not_found -> [] 
-    in RedBlack.insert ekikan_tree kiten ((shuten, kyori) :: lst) 
+    in insert ekikan_tree kiten ((shuten, kyori) :: lst) 
 
 
 (* ins_ekikan を始点と終点を入れ替えて2回呼ぶことでリストを作っている *)
@@ -98,7 +100,7 @@ let inserts_ekikan ekikan_tree ekikan_list =
 (* get_ekikan_kyori : string -> string -> 
 (string * (string * float) list) RedBlack.t -> float *) 
 let rec get_ekikan_kyori eki1 eki2 eki_tree = 
-    List.assoc eki2 (RedBlack.search eki_tree eki1) 
+    List.assoc eki2 (search eki_tree eki1) 
 
 (* 直前に確定した駅 p（eki_t型）と未確定の駅リスト v（eki_t list）と
 駅間の木構造 (ekikan_tree)を受け取ったら、必要な更新処理を行ったあとの
@@ -171,7 +173,7 @@ let dijkstra shiten shuten =
     let start_eki = romaji_to_kanji shiten global_ekimei_list in
     let end_eki = romaji_to_kanji shuten global_ekimei_list in
     let eki_list_prev = make_initial_eki_list global_ekimei_list start_eki in
-    let global_ekikan_tree = inserts_ekikan RedBlack.empty global_ekikan_list in
+    let global_ekikan_tree = inserts_ekikan empty global_ekikan_list in
     let eki_list = dijkstra_main eki_list_prev global_ekikan_tree in
         find end_eki eki_list
 
