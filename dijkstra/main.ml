@@ -177,10 +177,49 @@ let dijkstra shiten shuten =
     let eki_list = dijkstra_main eki_list_prev global_ekikan_tree in
         find end_eki eki_list
 
-
 (* テスト *)
 let test1 = dijkstra "shibuya" "gokokuji" = 
   {namae = "護国寺"; saitan_kyori = 9.8; 
    temae_list = 
      ["護国寺"; "江戸川橋"; "飯田橋"; "市ヶ谷"; "麹町"; "永田町"; 
       "青山一丁目"; "表参道"; "渋谷"]} 
+
+
+(* 問題 21.1: これまで作ってきたメトロネットワーク最短路問題の
+プログラムは最終結果を eki_t 型のレコードで返す。
+この eki_t 型の値を受け取ったら、結果を「きれいに」表示する print_eki を作れ。
+この関数を使ってメトロネットワーク最短経路のプログラムが結果をきれいに
+出力するように書き換えよ。 *)
+let print_eki eki = match eki with 
+    {namae=n; saitan_kyori=k; temae_list=t} -> match t with
+        [] -> assert false
+      | [a] -> 
+          print_string a;
+          print_string " - 最短距離は (";
+          print_float k;
+          print_string "km) です。";
+      | a :: rest -> 
+      List.fold_right (fun b () -> print_string (b ^ "、")) 
+      rest (); 
+          print_string a;
+          print_string " - 最短距離は (";
+          print_float k;
+          print_string "km) です。"
+
+(* メイン関数 *) 
+(* main : string -> string -> unit *) 
+let main romaji_kiten romaji_shuten = 
+    let eki = dijkstra romaji_kiten romaji_shuten in 
+        print_eki eki
+
+;;
+
+(* テスト *) 
+let test1 = main "shibuya" "gokokuji" = ()
+(* 渋谷、表参道、青山一丁目、永田町、麹町、市ヶ谷、飯田橋、江戸川橋、 
+   護国寺（9.8km）と表示される *) 
+let test2 = main "myogadani" "meguro" = () 
+(* 茗荷谷、後楽園、飯田橋、市ヶ谷、麹町、永田町、溜池山王、六本木一丁目、 
+   麻布十番、白金高輪、白金台、目黒（12.7km）と表示される *) 
+
+
