@@ -12,9 +12,13 @@
 sieve をデザインレシピにしたがって作れ。
 その際、再帰の停止性についてもきちんと議論せよ。 *)
 (* sieve : int list -> int list *)
-let rec sieve lst = match lst with
-    [] -> []
-  | first :: rest -> first :: sieve (List.filter (fun x -> x mod first <> 0) rest)
+let rec sieve lst = 
+    print_int (List.length lst);
+    print_newline ();
+    match lst with
+        [] -> []
+      | first :: rest -> 
+            first :: sieve (List.filter (fun x -> x mod first <> 0) rest)
 
 (* テスト *)
 let sieve_t1 = sieve [] = []
