@@ -1,4 +1,4 @@
-SOURCES = redBlack.mli redBlack.ml
-RESULT = redBlack
+SOURCES = redBlack.mli redBlack.ml metro.ml main.ml
+RESULT = dijkstra
 OCAMLMAKEFILE = ~/ocaml-makefile-master/OCAMLMAKEFILE
 include $(OCAMLMAKEFILE)

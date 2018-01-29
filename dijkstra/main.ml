@@ -1,33 +1,5 @@
-type ekimei_t = {
-    kanji: string;
-    kana: string;
-    romaji: string;
-    shozoku: string;
-}
 
-type ekikan_t = {
-    kiten: string;  (* 起点の駅名 *)
-    shuten: string; (* 終点の駅名 *)
-    keiyu: string;  (* 経由する路線名 *)
-    kyori: float;   (* ２駅間の距離（km） *)
-    jikan: int;     (* 所要時間（分） *)
-}
-
-type eki_t = {
-    namae: string;
-    saitan_kyori: float;
-    temae_list: string list;
-}
-
-(* 問題 18.6 *)
-exception No_such_station of string
-
-;; 
-
-#use "ekimei.ml";;
-#use "ekikan.ml";;
-
-
+open Metro
 open RedBlack
 
 (* ローマ字の駅名（文字列）と駅名リスト（ekimei_t list 型）を受け取ったら、
@@ -198,28 +170,22 @@ let print_eki eki = match eki with
           print_string " - 最短距離は (";
           print_float k;
           print_string "km) です。";
+          print_newline ()
       | a :: rest -> 
       List.fold_right (fun b () -> print_string (b ^ "、")) 
       rest (); 
           print_string a;
           print_string " - 最短距離は (";
           print_float k;
-          print_string "km) です。"
+          print_string "km) です。";
+          print_newline ()
 
 (* メイン関数 *) 
 (* main : string -> string -> unit *) 
 let main romaji_kiten romaji_shuten = 
     let eki = dijkstra romaji_kiten romaji_shuten in 
-        print_eki eki
-
-;;
-
-(* テスト *) 
-let test1 = main "shibuya" "gokokuji" = ()
-(* 渋谷、表参道、青山一丁目、永田町、麹町、市ヶ谷、飯田橋、江戸川橋、 
-   護国寺（9.8km）と表示される *) 
-let test2 = main "myogadani" "meguro" = () 
-(* 茗荷谷、後楽園、飯田橋、市ヶ谷、麹町、永田町、溜池山王、六本木一丁目、 
-   麻布十番、白金高輪、白金台、目黒（12.7km）と表示される *) 
+    print_eki eki
 
 
+let _ = main Sys.argv.(1) Sys.argv.(2);;
+(* ./dijkstra shibuya gokokuji  *)
