@@ -1,10 +1,13 @@
-module type Heap = sig
+module type Heap_t = sig
 
 type ('a, 'b) t
 (* 最小値を求める値が 'a 型でそのほかの付加情報が 'b 型であるヒープの型 *)
 
-type index_t
-(* ヒープの添字の型 *)
+exception Full 
+(* insert したときにヒープが一杯だと raise される例外 *) 
+ 
+exception Empty 
+(* split_top したときにヒープが空だと raise される例外 *) 
 
 val create : int -> 'a -> 'b -> ('a, 'b) t
 (* 使い方: create size key value *)
